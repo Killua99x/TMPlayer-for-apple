@@ -17,6 +17,14 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 4 (2026-11-14)
+
+- A video with sound in more than one language now plays one language at a time and lists them
+  all, with all of its subtitles, as on Android. Some MP4 files played two languages over each
+  other and listed only one.
+- "TMPlayer is struggling on this device" no longer appears when it is other apps that fill the
+  device's memory.
+
 ## 1.28.5 build 3 (2026-11-14)
 
 - Removing your own TMDB key now clears the posters and details it found, as adding or

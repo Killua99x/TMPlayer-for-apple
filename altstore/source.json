@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "3",
-          "date": "2026-11-14T11:40:39Z",
-          "localizedDescription": "- Removing your own TMDB key now clears the posters and details it found, as adding or\n  changing one does: series and anime find theirs again from TVmaze and AniList, and films\n  show their Telegram picture again.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-3/TMPlayer-for-Apple-1.28.5-3.ipa",
-          "size": 46322647,
+          "buildVersion": "4",
+          "date": "2026-11-14T14:35:23Z",
+          "localizedDescription": "- A video with sound in more than one language now plays one language at a time and lists them\n  all, with all of its subtitles, as on Android. Some MP4 files played two languages over each\n  other and listed only one.\n- \"TMPlayer is struggling on this device\" no longer appears when it is other apps that fill the\n  device's memory.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-4/TMPlayer-for-Apple-1.28.5-4.ipa",
+          "size": 46328234,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-14T11:40:39Z",
-      "versionDescription": "- Removing your own TMDB key now clears the posters and details it found, as adding or\n  changing one does: series and anime find theirs again from TVmaze and AniList, and films\n  show their Telegram picture again.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-3/TMPlayer-for-Apple-1.28.5-3.ipa",
-      "size": 46322647,
+      "versionDate": "2026-11-14T14:35:23Z",
+      "versionDescription": "- A video with sound in more than one language now plays one language at a time and lists them\n  all, with all of its subtitles, as on Android. Some MP4 files played two languages over each\n  other and listed only one.\n- \"TMPlayer is struggling on this device\" no longer appears when it is other apps that fill the\n  device's memory.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-4/TMPlayer-for-Apple-1.28.5-4.ipa",
+      "size": 46328234,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

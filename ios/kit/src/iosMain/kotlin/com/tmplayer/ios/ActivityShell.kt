@@ -339,9 +339,20 @@ internal object ActivityShell {
             front()?.stop()
         }
         on(UIApplicationDidReceiveMemoryWarningNotification) {
-            // Raises upstream's "struggling on this device" hint, as Android's running-low levels do.
-            Logger.w(TAG, "memory warning from iOS: ${PerfProbe.memoryNow()}")
-            app.onTrimMemory(Application.TRIM_MEMORY_RUNNING_CRITICAL)
+            // TMPlayer itself using half or more of what iOS allows it is the struggle upstream's
+            // "struggling on this device" hint is for: the critical level raises it, as Android's
+            // running-low levels do. iOS also warns the app in front when other apps fill the
+            // device (an iPhone 13 with Telegram, X and Music holding about 1 GB, 2026-11-14): the
+            // pictures are handed back all the same, and no hint blames TMPlayer.
+            val memory = PerfProbe.memory()
+            val ours = memory == null || memory.first >= memory.second
+            Logger.w(TAG, "memory warning from iOS: ${PerfProbe.memoryNow()}${if (ours) "" else ", the device's, not TMPlayer's"}")
+            if (ours) {
+                app.onTrimMemory(Application.TRIM_MEMORY_RUNNING_CRITICAL)
+            } else {
+                app.onTrimMemory(Application.TRIM_MEMORY_RUNNING_MODERATE)
+                com.tmplayer.data.Thumbnails.trim(everything = true)
+            }
         }
     }
 }

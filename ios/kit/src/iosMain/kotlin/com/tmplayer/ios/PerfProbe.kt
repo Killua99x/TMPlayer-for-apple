@@ -265,13 +265,19 @@ internal object PerfProbe {
         "${label.ifBlank { "unnamed" }} (cpu ${(kotlin.math.round(cpu * 100) / 100)} s)"
     }
 
-    fun memoryNow(): String = memScoped {
+    fun memoryNow(): String {
+        val (footprint, left) = memory() ?: return "footprint unknown"
+        val mb = 1024L * 1024
+        return "footprint ${footprint / mb} MB, ${left / mb} MB left before iOS ends the app"
+    }
+
+    /** The app's footprint and what iOS still allows it, in bytes, or null when iOS does not say. */
+    fun memory(): Pair<Long, Long>? = memScoped {
         val vm = alloc<task_vm_info_data_t>()
         val count = alloc<mach_msg_type_number_tVar>()
         count.value = (sizeOf<task_vm_info_data_t>() / sizeOf<natural_tVar>()).toUInt()
-        if (task_info(mach_task_self_, TASK_VM_INFO.toUInt(), vm.ptr.reinterpret(), count.ptr) != KERN_SUCCESS) return "footprint unknown"
-        val mb = 1024L * 1024
-        "footprint ${vm.phys_footprint.toLong() / mb} MB, ${vm.limit_bytes_remaining.toLong() / mb} MB left before iOS ends the app"
+        if (task_info(mach_task_self_, TASK_VM_INFO.toUInt(), vm.ptr.reinterpret(), count.ptr) != KERN_SUCCESS) return null
+        vm.phys_footprint.toLong() to vm.limit_bytes_remaining.toLong()
     }
 
     private fun read(): Reading? = memScoped {

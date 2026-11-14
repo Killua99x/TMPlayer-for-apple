@@ -119,6 +119,12 @@ final class AppleEngine: NSObject, VideoEngine {
                     self.cannotPlay("Apple's player does not play this file's format")
                     return
                 }
+                let offered = try await AppleEngine.offersEveryTrack(asset, tracks)
+                guard self.asset === asset else { return }
+                guard offered else {
+                    self.cannotPlay("Apple's player does not offer every sound and subtitle track of this file")
+                    return
+                }
                 self.start(asset: asset, duration: duration, startAtMs: startAtMs, options: options)
             } catch {
                 guard let self, self.asset === asset else { return }
@@ -314,6 +320,37 @@ final class AppleEngine: NSObject, VideoEngine {
         }
         return tracks.contains { $0.mediaType == .video }
     }
+
+    /// Whether every sound and subtitle track of the file is a choice Apple's player offers, as
+    /// Android's player lists them all. Tracks a file does not mark as alternatives of one another
+    /// (each in an alternate group of its own, as some muxers write them) are left out of its
+    /// choices, and the sound ones that are on all play at once: an MP4 with Italian and English
+    /// sound, both on, played the two languages over each other and listed Italian alone, with one
+    /// of its 18 subtitle tracks (2026-11-14). mpv lists every track and plays one, so such a file goes to mpv. A chapter
+    /// track is a text track too, and no subtitle.
+    static func offersEveryTrack(_ asset: AVAsset, _ tracks: [AVAssetTrack]) async throws -> Bool {
+        let sound = tracks.filter { $0.mediaType == .audio }.count
+        if sound > 1 {
+            let offered = try await asset.loadMediaSelectionGroup(for: .audible)?.options.count ?? 0
+            if offered < sound { return false }
+        }
+        var chapterTracks = Set<CMPersistentTrackID>()
+        for track in tracks {
+            for chapters in try await track.loadAssociatedTracks(ofType: .chapterList) {
+                chapterTracks.insert(chapters.trackID)
+            }
+        }
+        let subtitles = tracks.filter { subtitleTypes.contains($0.mediaType) && !chapterTracks.contains($0.trackID) }.count
+        if subtitles > 0 {
+            let options = try await asset.loadMediaSelectionGroup(for: .legible)?.options ?? []
+            // AVFoundation adds a forced only twin of each subtitle track: the full ones are counted.
+            let full = options.filter { !$0.hasMediaCharacteristic(.containsOnlyForcedSubtitles) }.count
+            if full < subtitles { return false }
+        }
+        return true
+    }
+
+    private static let subtitleTypes: Set<AVMediaType> = [.subtitle, .text, .closedCaption]
 
     private func start(asset: AVURLAsset, duration: CMTime, startAtMs: Int64, options: EngineOpenOptions) {
         let item = AVPlayerItem(asset: asset)
