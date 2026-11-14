@@ -118,7 +118,7 @@ class EngineExoPlayer internal constructor(
         val plan = (control as? androidx.media3.exoplayer.DefaultLoadControl)?.plan ?: return
         engine?.readAhead?.readAhead(plan)
     }
-    private val scope = MainScope() + CoroutineExceptionHandler { _, e -> platform.Foundation.NSLog("TMPlayer media3: %@", e.toString()) }
+    private val scope = MainScope() + CoroutineExceptionHandler { _, e -> com.tmplayer.platform.Logger.w("media3", "a player job failed", e) }
     private val listeners = ArrayList<Player.Listener>()
 
     private var items: List<MediaItem> = emptyList()
@@ -662,7 +662,7 @@ class EngineExoPlayer internal constructor(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Throwable) {
-                platform.Foundation.NSLog("TMPlayer media3: open failed, %@", e.toString())
+                com.tmplayer.platform.Logger.w("media3", "open failed", e)
             }
         }
         if (!playWhenReady) engine.pause()

@@ -17,6 +17,10 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 6 (2026-11-14)
+
+- A failure while opening a video no longer closes the app.
+
 ## 1.28.5 build 5 (2026-11-14)
 
 - Sound and picture stay together. After opening a video where you left it, the sound could run

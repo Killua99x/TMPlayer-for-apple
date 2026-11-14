@@ -9,6 +9,14 @@ struct TMPlayerApp: App {
     init() {
         // The engine every ExoPlayer of Android's player plays on (docs/IOS_VIDEO_ENGINES.md).
         Engines.shared.install { VideoEngines.make() }
+        // `-memoryWarningAfter <s>` (a developer's check): iOS's memory warning that many seconds
+        // in, as UIKit posts it, to see what the app does with one.
+        let after = UserDefaults.standard.integer(forKey: "memoryWarningAfter")
+        if after > 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(after)) {
+                NotificationCenter.default.post(name: UIApplication.didReceiveMemoryWarningNotification, object: UIApplication.shared)
+            }
+        }
     }
 
     var body: some Scene {

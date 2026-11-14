@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "5",
-          "date": "2026-11-14T15:08:36Z",
-          "localizedDescription": "- Sound and picture stay together. After opening a video where you left it, the sound could run\n  seconds ahead and the picture then rushed to catch up.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-5/TMPlayer-for-Apple-1.28.5-5.ipa",
-          "size": 46320534,
+          "buildVersion": "6",
+          "date": "2026-11-14T16:58:44Z",
+          "localizedDescription": "- A failure while opening a video no longer closes the app.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-6/TMPlayer-for-Apple-1.28.5-6.ipa",
+          "size": 46330236,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-14T15:08:36Z",
-      "versionDescription": "- Sound and picture stay together. After opening a video where you left it, the sound could run\n  seconds ahead and the picture then rushed to catch up.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-5/TMPlayer-for-Apple-1.28.5-5.ipa",
-      "size": 46320534,
+      "versionDate": "2026-11-14T16:58:44Z",
+      "versionDescription": "- A failure while opening a video no longer closes the app.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-6/TMPlayer-for-Apple-1.28.5-6.ipa",
+      "size": 46330236,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

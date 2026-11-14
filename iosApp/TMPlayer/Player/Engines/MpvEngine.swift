@@ -158,6 +158,7 @@ final class MpvEngine: NSObject, VideoEngine {
 
     func selectTrack(type: IosTrackType, id: Int32) {
         let name = type == .audio ? "aid" : type == .subtitle ? "sid" : "vid"
+        if UserDefaults.standard.integer(forKey: "perfLog") > 0 { log("\(name) asked: \(id)") }
         setProperty(name, id < 0 ? "no" : String(id))
     }
 
@@ -442,7 +443,7 @@ final class MpvEngine: NSObject, VideoEngine {
             ("time-pos", MPV_FORMAT_DOUBLE), ("duration", MPV_FORMAT_DOUBLE), ("demuxer-cache-time", MPV_FORMAT_DOUBLE),
             ("pause", MPV_FORMAT_FLAG), ("paused-for-cache", MPV_FORMAT_FLAG), ("seeking", MPV_FORMAT_FLAG),
             ("eof-reached", MPV_FORMAT_FLAG), ("track-list", MPV_FORMAT_NONE), ("chapter-list", MPV_FORMAT_NONE),
-            ("sub-text/ass", MPV_FORMAT_STRING), ("current-tracks/sub/codec", MPV_FORMAT_STRING),
+            ("sub-text/ass", MPV_FORMAT_STRING), ("current-tracks/sub/codec", MPV_FORMAT_STRING), ("sid", MPV_FORMAT_STRING),
         ] {
             mpv_observe_property(handle, 0, name, format)
         }
@@ -555,9 +556,10 @@ final class MpvEngine: NSObject, VideoEngine {
         let every = UserDefaults.standard.integer(forKey: "perfLog")
         guard every > 0, -readAheadLoggedAt.timeIntervalSinceNow >= Double(min(every, 5)) else { return }
         readAheadLoggedAt = Date()
-        NSLog("TMPlayer read ahead: %.1f s, GPU per new frame %.2f ms; avsync %@ s, dropped %@ (decoder %@), late %@, ao %@",
+        NSLog("TMPlayer read ahead: %.1f s, GPU per new frame %.2f ms; avsync %@ s, dropped %@ (decoder %@), late %@, ao %@; sound %@, subtitles %@",
               buffered - position, gpuPerFrameMs(), property("avsync") ?? "-", property("frame-drop-count") ?? "-",
-              property("decoder-frame-drop-count") ?? "-", property("vo-delayed-frame-count") ?? "-", property("current-ao") ?? "-")
+              property("decoder-frame-drop-count") ?? "-", property("vo-delayed-frame-count") ?? "-", property("current-ao") ?? "-",
+              property("current-tracks/audio/lang") ?? "-", property("current-tracks/sub/lang") ?? "off")
     }
 
     /// With `-perfLog`: each moment the picture and the sound are 40 ms or more apart, as mpv
@@ -620,6 +622,8 @@ final class MpvEngine: NSObject, VideoEngine {
             reports?.subtitleText(text: string(change))
         case ("sub-text/ass", _):
             reports?.subtitleText(text: nil)
+        case ("sid", MPV_FORMAT_STRING):
+            if UserDefaults.standard.integer(forKey: "perfLog") > 0 { log("subtitle track now \(string(change) ?? "-")") }
         case ("current-tracks/sub/codec", MPV_FORMAT_STRING):
             showSubtitles(codec: string(change))
         case ("current-tracks/sub/codec", _):
