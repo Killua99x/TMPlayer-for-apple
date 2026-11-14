@@ -25,24 +25,19 @@ object MovedContainer {
     private const val TAG = "MovedContainer"
     private const val CONTAINERS = "/Containers/Data/Application/"
 
-    /** The container the app last ran in, in its preferences, which move with it. */
-    private const val LAST_CONTAINER = "lastDataContainer"
-
     /**
      * Home's and the chat listings' disk caches keep TDLib's file ids from the run that wrote them,
-     * and in a new folder an id can name another file: a thumbnail's old id named whole videos
-     * (258 MB, 1.1 GB), which TDLib then fetched for a card's picture (iPhone 13, 2026-11-12).
-     * So when the folder is new, or not known yet, the two are forgotten before anything reads
-     * them, and Home and the listings come from Telegram again, once. On Android the folder never
-     * moves, and they are kept.
+     * and TDLib's ids hold for one run only: TDLib numbers its files again at each start, as its
+     * documentation says, and an id can then name another file. A thumbnail's old id named whole
+     * videos, which TDLib then fetched for a card's picture: 258 MB and 1.1 GB on the iPhone 13 after
+     * a reinstall (2026-11-12), and a 448 MB video for a card after a plain restart (2026-11-14),
+     * the card black meanwhile. So the two are forgotten at every launch, before anything reads them,
+     * and Home and the listings come from Telegram, whose own database on the device answers in
+     * moments with the ids of this run.
      */
-    fun forgetSavedFileIdsIfMoved(filesDir: File, home: String = home()) {
-        val now = container(home)?.second ?: return
-        val defaults = platform.Foundation.NSUserDefaults.standardUserDefaults
-        if (defaults.stringForKey(LAST_CONTAINER) == now) return
+    fun forgetSavedFileIds(filesDir: File) {
         val forgotten = SAVED_FILE_IDS.count { File(filesDir, it).delete() }
-        defaults.setObject(now, LAST_CONTAINER)
-        Logger.i(TAG, "a new folder: $forgotten caches with TDLib's file ids forgotten")
+        if (forgotten > 0) Logger.i(TAG, "$forgotten caches with an earlier run's TDLib file ids forgotten")
     }
 
     /** The files written by HomeCache and ChatGridDisk (App.kt), under the app's files folder. */
@@ -104,7 +99,7 @@ object MovedContainer {
      * and only those that moved are written, so a launch with nothing to move costs one read.
      */
     fun atLaunch(context: Context) {
-        forgetSavedFileIdsIfMoved(context.filesDir)
+        forgetSavedFileIds(context.filesDir)
         val started = TimeSource.Monotonic.markNow()
         try {
             val repointed = runBlocking { repointDownloads(SettingsStore(context)) }

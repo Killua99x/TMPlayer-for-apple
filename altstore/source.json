@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "1",
-          "date": "2026-11-14T07:35:20Z",
-          "localizedDescription": "The first version for iPhone and iPad, built from TMPlayer 1.28.5.\n\n- Sign in with your phone number or a QR code, then browse your chats and channels and see only\n  their videos.\n- Playback starts while the video is still downloading, and seeking moves the download to the new\n  spot.\n- MP4 plays in Apple's own player, which uses the least battery; MKV, AVI, TS and the rest in mpv.\n  Both use the hardware decoder, with embedded subtitles (PGS and VobSub too) and several audio\n  tracks.\n- Episodes recognised from file names, Continue watching, Favourites and Downloads, as in TMPlayer\n  for Android.\n- One app for iPhone and iPad: the layout follows the window, in either orientation and beside\n  another app.\n- 22 languages: Czech is new in this version, and the Russian wording is fixed throughout.\n- Not on iPhone and iPad: casting (Google Cast, DLNA, AirPlay video), Picture in Picture, and\n  downloads while the app is in the background.\n\nNeeds iOS or iPadOS 26.4 or later. Unofficial, not affiliated with Telegram.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5/TMPlayer-for-Apple-1.28.5.ipa",
-          "size": 46320630,
+          "buildVersion": "2",
+          "date": "2026-11-14T08:53:48Z",
+          "localizedDescription": "- Pictures on Home and in a video's details no longer go black, or show another video's picture,\n  after the app is opened again.\n- Adding your own TMDB key now finds posters and details again by itself, with no need to clear\n  them in Settings.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-2/TMPlayer-for-Apple-1.28.5-2.ipa",
+          "size": 46321845,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-14T07:35:20Z",
-      "versionDescription": "The first version for iPhone and iPad, built from TMPlayer 1.28.5.\n\n- Sign in with your phone number or a QR code, then browse your chats and channels and see only\n  their videos.\n- Playback starts while the video is still downloading, and seeking moves the download to the new\n  spot.\n- MP4 plays in Apple's own player, which uses the least battery; MKV, AVI, TS and the rest in mpv.\n  Both use the hardware decoder, with embedded subtitles (PGS and VobSub too) and several audio\n  tracks.\n- Episodes recognised from file names, Continue watching, Favourites and Downloads, as in TMPlayer\n  for Android.\n- One app for iPhone and iPad: the layout follows the window, in either orientation and beside\n  another app.\n- 22 languages: Czech is new in this version, and the Russian wording is fixed throughout.\n- Not on iPhone and iPad: casting (Google Cast, DLNA, AirPlay video), Picture in Picture, and\n  downloads while the app is in the background.\n\nNeeds iOS or iPadOS 26.4 or later. Unofficial, not affiliated with Telegram.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5/TMPlayer-for-Apple-1.28.5.ipa",
-      "size": 46320630,
+      "versionDate": "2026-11-14T08:53:48Z",
+      "versionDescription": "- Pictures on Home and in a video's details no longer go black, or show another video's picture,\n  after the app is opened again.\n- Adding your own TMDB key now finds posters and details again by itself, with no need to clear\n  them in Settings.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-2/TMPlayer-for-Apple-1.28.5-2.ipa",
+      "size": 46321845,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

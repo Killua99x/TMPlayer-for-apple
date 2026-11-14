@@ -100,6 +100,7 @@ internal object ActivityShell {
             noticeForCheck(it)
             NetCheck.startIfAsked()
             PerfProbe.startIfAsked()
+            OwnKeyWatch.start()
         }
         val back = BackStack()
         // Esc on an iPad's keyboard, as MainActivity's own key handling sends it to Back.

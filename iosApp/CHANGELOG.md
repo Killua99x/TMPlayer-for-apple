@@ -17,6 +17,13 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 2 (2026-11-14)
+
+- Pictures on Home and in a video's details no longer go black, or show another video's picture,
+  after the app is opened again.
+- Adding your own TMDB key now finds posters and details again by itself, with no need to clear
+  them in Settings.
+
 ## 1.28.5 (2026-11-14)
 
 The first version for iPhone and iPad, built from TMPlayer 1.28.5.
