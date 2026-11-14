@@ -184,6 +184,11 @@ class ActivityScreen internal constructor(
         else -> UIInterfaceOrientationMaskPortrait
     }
 
+    /** Swift's, when iOS moves the screen's safe area: each activity's views get it at once. */
+    fun safeAreaChanged() {
+        inputs.values.forEach { it.safeAreaChanged() }
+    }
+
     /** Swift's, once the screen is up: the top activity starts and resumes, the screens under it stop. */
     fun shown() {
         if (shown || closed) return

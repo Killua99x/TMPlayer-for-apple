@@ -125,6 +125,13 @@ final class ActivityViewController: UIViewController {
         }
     }
 
+    /// The status bar coming or going with the player's row moves the safe area without a change
+    /// of size: the activity's views are told, as Android hands them the bars' insets.
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        screen.safeAreaChanged()
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard !appeared else { return }

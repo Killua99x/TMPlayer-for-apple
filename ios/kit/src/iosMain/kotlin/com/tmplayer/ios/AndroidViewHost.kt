@@ -24,6 +24,8 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.window.ComposeUIViewController
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import platform.UIKit.UIViewController
 import platform.UIKit.addChildViewController
 import platform.UIKit.didMoveToParentViewController
@@ -53,6 +55,17 @@ internal class AndroidViewHost(
     private val nativeLayer = platform.UIKit.UIView()
 
     override fun invalidateTree() {
+        frame++
+    }
+
+    /** The safe area last handed to the tree: left, top, right and bottom, in pixels. */
+    private var insetsHanded: List<Int>? = null
+
+    /**
+     * iOS says the safe area moved: the status bar shown or hidden with the player's row, a turn,
+     * an iPad window resized. The next frame hands it to the tree, playing or paused.
+     */
+    fun safeAreaChanged() {
         frame++
     }
 
@@ -221,11 +234,21 @@ internal class AndroidViewHost(
                 val asked = frame
                 val w = size.width.toInt()
                 val h = size.height.toInt()
-                if (layoutNeeded || root.width != w || root.height != h || root.isLayoutRequested) {
-                    // The window's insets reach the tree first, as Android hands them out before a
-                    // layout pass: on the first pass and whenever the size changes (a rotation).
-                    if (root.width != w || root.height != h) {
-                        androidx.core.view.WindowInsetsCompat.ofKeyWindow()?.let { androidx.core.view.ViewCompat.dispatchApplyWindowInsets(root, it) }
+                // The window's insets reach the tree first, as Android hands them out before a layout
+                // pass: on the first pass, when the size changes (a turn), and whenever the safe
+                // area moves without one, as when the status bar comes with the player's row. Handed
+                // on a size change alone, the row's top bar stayed under the status bar until some
+                // later turn (iPad, 2026-11-14), where Android hands the bars' new insets at once.
+                val insets = WindowInsetsCompat.ofKeyWindow()
+                val sides = insets
+                    ?.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+                    ?.let { listOf(it.left, it.top, it.right, it.bottom) }
+                val resized = root.width != w || root.height != h
+                val moved = sides != null && sides != insetsHanded
+                if (layoutNeeded || resized || moved || root.isLayoutRequested) {
+                    if (insets != null && (resized || moved)) {
+                        ViewCompat.dispatchApplyWindowInsets(root, insets)
+                        insetsHanded = sides
                     }
                     layoutNeeded = false
                     root.measure(

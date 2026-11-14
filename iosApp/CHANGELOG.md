@@ -17,6 +17,11 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 7 (2026-11-14)
+
+- On an iPad, the player's title and buttons no longer sit under the clock and battery when
+  the controls come up.
+
 ## 1.28.5 build 6 (2026-11-14)
 
 - A failure while opening a video no longer closes the app.

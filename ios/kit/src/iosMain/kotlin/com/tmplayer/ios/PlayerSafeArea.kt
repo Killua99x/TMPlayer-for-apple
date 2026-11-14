@@ -2,6 +2,7 @@ package com.tmplayer.ios
 
 import android.app.Activity
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -23,8 +24,9 @@ import kotlin.math.roundToInt
  *   comes up, in onCreate, before the player's views are in a window: none then, on Android too.
  *   Its ComposeView takes the safe area on every side, so its blurred backdrop stops there too.
  * Each gets padding only where it overlaps the unsafe edges, on top of its own, checked at every
- * layout (a turn of the screen, a new picture shape). The backdrop picture and scrim behind the
- * sheet still fill the screen, as on Android.
+ * layout (a turn of the screen, a new picture shape) and whenever the window's insets reach it
+ * (the status bar coming or going with the player's row, which moves no view). The backdrop
+ * picture and scrim behind the sheet still fill the screen, as on Android.
  */
 internal object PlayerSafeArea {
     fun keepClear(activity: Activity) {
@@ -62,6 +64,12 @@ internal object PlayerSafeArea {
             }
         }
         view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> apply() }
+        // Insets reach the tree before its layout pass: measured after it. Upstream sets its insets
+        // listener on the player's root only (insetTheControls), never on these views.
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+            view.post { apply() }
+            insets
+        }
         view.post { apply() }
     }
 }
