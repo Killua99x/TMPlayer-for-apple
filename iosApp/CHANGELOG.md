@@ -17,6 +17,12 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 3 (2026-11-14)
+
+- Removing your own TMDB key now clears the posters and details it found, as adding or
+  changing one does: series and anime find theirs again from TVmaze and AniList, and films
+  show their Telegram picture again.
+
 ## 1.28.5 build 2 (2026-11-14)
 
 - Pictures on Home and in a video's details no longer go black, or show another video's picture,

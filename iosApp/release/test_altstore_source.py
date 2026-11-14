@@ -166,8 +166,20 @@ class RepositoryTest(unittest.TestCase):
         self.assertIn("in order", output)
 
     def test_a_source_without_versions_is_not_ready_to_publish(self):
-        with self.assertRaises(SystemExit):
-            run("check", "--source", os.path.join(ROOT, "altstore", "source.json"), "--published")
+        # The repository's own source has versions since 1.28.5: a copy without them stands in.
+        with open(os.path.join(ROOT, "altstore", "source.json"), encoding="utf-8") as f:
+            source = json.load(f)
+        for app in source["apps"]:
+            app["versions"] = []
+        with tempfile.TemporaryDirectory() as folder:
+            path = os.path.join(folder, "source.json")
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(source, f)
+            with self.assertRaises(SystemExit):
+                run("check", "--source", path, "--published")
+
+    def test_the_published_source_is_ready(self):
+        run("check", "--source", os.path.join(ROOT, "altstore", "source.json"), "--published")
 
 
 if __name__ == "__main__":

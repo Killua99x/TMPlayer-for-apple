@@ -80,6 +80,7 @@ internal fun imageFromPixels(argb: IntArray, width: Int, height: Int): ImageBitm
 /** Bytes in memory (an inline preview), at full size, as Android's `decodeByteArray`. */
 internal fun decodeImage(data: ByteArray): ImageBitmap? =
     runCatching { Image.makeFromEncoded(data).toComposeImageBitmap() }.getOrNull()
+        .also { if (artCheck) describeBytes(data, it) }
 
 /**
  * The picture in the file at [path], at most [maxWidth] pixels across, as Android decodes it:
@@ -282,25 +283,37 @@ private fun readInto(source: Bitmap, target: Bitmap): Boolean {
 private val artCheck: Boolean by lazy { platform.Foundation.NSUserDefaults.standardUserDefaults.boolForKey("artCheck") }
 
 private fun describe(path: String, bitmap: ImageBitmap?) {
-    var sum = 0L
-    var n = 0
-    if (bitmap != null) {
-        val one = IntArray(1)
-        for (gy in 0 until 8) for (gx in 0 until 8) {
-            val x = (bitmap.width - 1) * gx / 7
-            val y = (bitmap.height - 1) * gy / 7
-            runCatching { bitmap.readPixels(one, x, y, 1, 1) }.getOrNull() ?: continue
-            val p = one[0]
-            sum += ((p shr 16) and 0xFF) + ((p shr 8) and 0xFF) + (p and 0xFF)
-            n++
-        }
-    }
     val file = File(path)
     com.tmplayer.platform.Logger.i(
         "ArtCheck",
         "${file.name.take(16)}: ${file.length() / 1024} KiB -> ${bitmap?.width}x${bitmap?.height} ${bitmap?.config}, " +
-            "${bitmap?.byteCount()?.let { it / 1024 }} KiB, mean ${if (n > 0) sum / (3 * n) else -1}",
+            "${bitmap?.byteCount()?.let { it / 1024 }} KiB, mean ${meanOf(bitmap)}",
     )
+}
+
+/** An inline preview: its bytes' size and key (as [PromoCovers.keyOf]), what it decoded to. */
+private fun describeBytes(data: ByteArray, bitmap: ImageBitmap?) {
+    com.tmplayer.platform.Logger.i(
+        "ArtCheck",
+        "preview ${PromoCovers.keyOf(data).toULong().toString(16)}: ${data.size} B -> ${bitmap?.width}x${bitmap?.height}, mean ${meanOf(bitmap)}",
+    )
+}
+
+/** The mean brightness of 64 pixels spread over [bitmap], 0 to 255; -1 for none. */
+private fun meanOf(bitmap: ImageBitmap?): Long {
+    if (bitmap == null) return -1
+    var sum = 0L
+    var n = 0
+    val one = IntArray(1)
+    for (gy in 0 until 8) for (gx in 0 until 8) {
+        val x = (bitmap.width - 1) * gx / 7
+        val y = (bitmap.height - 1) * gy / 7
+        runCatching { bitmap.readPixels(one, x, y, 1, 1) }.getOrNull() ?: continue
+        val p = one[0]
+        sum += ((p shr 16) and 0xFF) + ((p shr 8) and 0xFF) + (p and 0xFF)
+        n++
+    }
+    return if (n > 0) sum / (3 * n) else -1
 }
 
 /** What a decoded picture holds in memory, for the cache's budget: 2 bytes a pixel in 16-bit colour. */
