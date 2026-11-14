@@ -73,6 +73,16 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
             "Link(\"GitHub Discussions\", L.aboutDiscussionsDetail, \"\$SOURCE/discussions\")," becomes
                 "Link(\"GitHub Issues\", L.aboutDiscussionsDetail, \"\$SOURCE/issues\"),",
         ),
+        // The iOS app carries no TMDB key of its own, so with none added TMDB was never asked:
+        // "TMDB did not accept the key" read as a fault (iPad, 2026-11-14). Settings' own words
+        // for a missing key say what to do; a key of one's own that TMDB refuses keeps upstream's.
+        "com/tmplayer/ui/browse/PosterPicker.kt" to listOf(
+            "PosterChoices.NoKey -> PickerLoad.Message(s.posterNoKey, canRetry = false)" becomes
+                "PosterChoices.NoKey -> PickerLoad.Message(\n" +
+                "                if (online.store.now.ownKey.isBlank()) s.metadataKeyNone else s.posterNoKey,\n" +
+                "                canRetry = false,\n" +
+                "            )",
+        ),
     ),
     // :ios, Android's screens, paths under app/src/main/java.
     "ios" to mapOf(

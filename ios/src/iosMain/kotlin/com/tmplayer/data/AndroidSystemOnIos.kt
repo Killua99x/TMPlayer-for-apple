@@ -141,9 +141,24 @@ object AfterUpdate {
     suspend fun afterReplace(context: Context) = Unit
 }
 
-/** Android's update setup reads the installer and the ABI; an iOS build never updates itself. */
+/**
+ * Android's update setup reads the installer and the ABI; an iOS build never updates itself:
+ * AltStore or SideStore does, from the source, as the iOS privacy note says. So checks are off
+ * (upstream's Home checks when it comes back online), and the version is the bundle's,
+ * "1.28.5 (7)", where About, Settings' Info and help row and a bug report show it. Left alone it
+ * read "0" (iPad, build 7, 2026-11-14), and any release on the feed would have looked newer.
+ */
 @Suppress("UNUSED_PARAMETER")
-fun Updates.configureForAndroid(context: Context) = Unit
+fun Updates.configureForAndroid(context: Context) {
+    val info = platform.Foundation.NSBundle.mainBundle.infoDictionary
+    val version = (info?.get("CFBundleShortVersionString") as? String)?.takeIf { it.isNotBlank() }
+    val build = (info?.get("CFBundleVersion") as? String)?.takeIf { it.isNotBlank() }
+    enabled = false
+    configure(
+        installedVersion = listOfNotNull(version, build?.let { "($it)" }).joinToString(" ").ifEmpty { "0" },
+        offers = { false },
+    )
+}
 
 /** Installing updates by itself is an Android 12 feature of the sideloaded build. */
 object AutoUpdater {

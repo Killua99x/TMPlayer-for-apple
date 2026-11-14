@@ -67,6 +67,46 @@ final class PlayerOnDeviceTests: XCTestCase {
         add(tree)
     }
 
+    /// What the target app shows now and what iOS sees of it (the names a test can tap by), with
+    /// no tap; `TM_STEPS` (labels joined by `|`) taps each label first, in order, where it is found:
+    /// the whole label or its beginning, or `type:<text>`, `swipe:up`, `swipe:down`.
+    func testScreenSeen() throws {
+        let app = target()
+        app.activate()
+        sleep(2)
+        let steps = (ProcessInfo.processInfo.environment["TM_STEPS"] ?? "").split(separator: "|").map(String.init)
+        for (index, label) in steps.enumerated() {
+            // `type:<text>` types into the field in focus; `swipe:up` and `swipe:down` scroll.
+            if label.hasPrefix("type:") {
+                app.typeText(String(label.dropFirst(5)))
+                sleep(3)
+                keep(app, "step-\(index + 1)")
+                continue
+            }
+            if label == "swipe:up" || label == "swipe:down" {
+                if label == "swipe:up" { app.swipeUp() } else { app.swipeDown() }
+                sleep(2)
+                keep(app, "step-\(index + 1)")
+                continue
+            }
+            // The label itself, or one that begins with it (a row's label carries its details too).
+            let exact = app.descendants(matching: .any).matching(NSPredicate(format: "label ==[c] %@", label)).firstMatch
+            let element = exact.exists ? exact : app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH[c] %@", label)).firstMatch
+            if element.waitForExistence(timeout: 5), element.isHittable {
+                element.tap()
+            } else {
+                XCTFail("No \(label) to tap")
+            }
+            sleep(3)
+            keep(app, "step-\(index + 1)")
+        }
+        keep(app, "screen")
+        let tree = XCTAttachment(string: app.debugDescription)
+        tree.name = "screen-tree"
+        tree.lifetime = .keepAlways
+        add(tree)
+    }
+
     /// The second pass: each control of the bar at the foot's start, and the menu at the top's end,
     /// tapped by its place in the landscape window (Compose's controls carry no names iOS sees),
     /// with a picture after each and the sheet it opened closed again.

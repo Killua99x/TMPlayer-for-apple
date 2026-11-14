@@ -17,6 +17,12 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 8 (2026-11-14)
+
+- Settings, About and a bug report show the app's version and build, where they showed 0.
+- Choosing a poster without a TMDB key of your own says how to add one, instead of saying
+  that TMDB refused a key.
+
 ## 1.28.5 build 7 (2026-11-14)
 
 - On an iPad, the player's title and buttons no longer sit under the clock and battery when

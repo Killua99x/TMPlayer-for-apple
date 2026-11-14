@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "7",
-          "date": "2026-11-14T17:41:52Z",
-          "localizedDescription": "- On an iPad, the player's title and buttons no longer sit under the clock and battery when\n  the controls come up.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-7/TMPlayer-for-Apple-1.28.5-7.ipa",
-          "size": 46327140,
+          "buildVersion": "8",
+          "date": "2026-11-14T19:05:20Z",
+          "localizedDescription": "- Settings, About and a bug report show the app's version and build, where they showed 0.\n- Choosing a poster without a TMDB key of your own says how to add one, instead of saying\n  that TMDB refused a key.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-8/TMPlayer-for-Apple-1.28.5-8.ipa",
+          "size": 46333580,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-14T17:41:52Z",
-      "versionDescription": "- On an iPad, the player's title and buttons no longer sit under the clock and battery when\n  the controls come up.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-7/TMPlayer-for-Apple-1.28.5-7.ipa",
-      "size": 46327140,
+      "versionDate": "2026-11-14T19:05:20Z",
+      "versionDescription": "- Settings, About and a bug report show the app's version and build, where they showed 0.\n- Choosing a poster without a TMDB key of your own says how to add one, instead of saying\n  that TMDB refused a key.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-8/TMPlayer-for-Apple-1.28.5-8.ipa",
+      "size": 46333580,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }
