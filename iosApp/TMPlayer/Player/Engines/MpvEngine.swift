@@ -88,7 +88,7 @@ final class MpvEngine: NSObject, VideoEngine {
         if options.softwareDecoding { set(handle, "hwdec", "no") }
         set(handle, "volume-max", boost ? "\(MpvRecipes.shared.boostedVolumeMax)" : "100")
         set(handle, "volume", String(format: "%.1f", mpvVolume(options.volume)))
-        set(handle, "mute", options.muted ? "yes" : "no")
+        set(handle, "mute", options.muted || MpvEngine.mutedForCheck ? "yes" : "no")
         set(handle, "speed", String(format: "%.3f", options.speed))
         set(handle, "audio-channels", options.downmix ? "stereo" : "auto-safe")
         set(handle, "sub-delay", seconds(options.subtitleDelayMs))
@@ -150,7 +150,11 @@ final class MpvEngine: NSObject, VideoEngine {
         setProperty("volume", String(format: "%.1f", mpvVolume(percent)))
     }
 
-    func setMuted(muted: Bool) { setProperty("mute", muted ? "yes" : "no") }
+    func setMuted(muted: Bool) { setProperty("mute", muted || MpvEngine.mutedForCheck ? "yes" : "no") }
+
+    /// `-mpvAudio muted`: the sound goes to the real output, silent, so a device check measures
+    /// the audio clock with headphones in.
+    private static let mutedForCheck = UserDefaults.standard.string(forKey: "mpvAudio") == "muted"
 
     func selectTrack(type: IosTrackType, id: Int32) {
         let name = type == .audio ? "aid" : type == .subtitle ? "sid" : "vid"
@@ -378,15 +382,23 @@ final class MpvEngine: NSObject, VideoEngine {
         #if targetEnvironment(simulator)
         set(handle, "screenshot-sw", "yes")
         #endif
-        // AVFoundation's sample buffer renderer, with the audio unit as the fallback: starting the
-        // audio unit waits on an RPC to the audio server, which Core Audio answers with an abort
-        // when it times out.
-        set(handle, "ao", "avfoundation,audiounit")
+        // The audio unit, with AVFoundation's sample buffer renderer as the fallback. The renderer
+        // came first while the audio session was made on the main thread, where starting the audio
+        // unit waited on the audio server until Core Audio aborted the app; the session is now
+        // ready, off the main thread, before the player opens. With the renderer, mpv's sound
+        // clock ran ahead after each seek or resume: 1.9 to 2.5 s apart, the picture then shown
+        // at 40 frames a second until it caught up (iPad, 2026-11-14, `-perfLog`'s sync lines);
+        // the audio unit keeps the two within a millisecond.
+        set(handle, "ao", "audiounit,avfoundation")
         // `-mpvAudio no` plays without sound, for a simulator whose audio server stopped answering
         // and for measurements on a device with headphones in. In a release build too, so its
         // numbers compare with a debug build's: a launch argument no viewer can pass.
         if UserDefaults.standard.string(forKey: "mpvAudio") == "no" {
             set(handle, "ao", "null")
+        }
+        // `-mpvAo <outputs>`: other audio outputs for a device check, as mpv's `ao` takes them.
+        if let ao = UserDefaults.standard.string(forKey: "mpvAo") {
+            set(handle, "ao", ao)
         }
         // mpv's fast profile: the picture scaled bilinearly and not dithered, as Android's player
         // hands the decoder's frames to the screen to scale. mpv's own scalers took 9 to 14 ms of
@@ -536,11 +548,25 @@ final class MpvEngine: NSObject, VideoEngine {
     /// When the read ahead was last logged, for a device check launched with `-perfLog`.
     private var readAheadLoggedAt = Date.distantPast
 
-    /// How far ahead mpv has read, every 5 s, with `-perfLog`.
+    /// How far ahead mpv has read, and how the picture keeps with the sound, every `-perfLog`
+    /// seconds (5 at most): mpv's audio and video gap (`avsync`, positive with the sound ahead)
+    /// and its frames dropped, by the output and by the decoder, and drawn late.
     private func logReadAhead() {
-        guard UserDefaults.standard.integer(forKey: "perfLog") > 0, -readAheadLoggedAt.timeIntervalSinceNow >= 5 else { return }
+        let every = UserDefaults.standard.integer(forKey: "perfLog")
+        guard every > 0, -readAheadLoggedAt.timeIntervalSinceNow >= Double(min(every, 5)) else { return }
         readAheadLoggedAt = Date()
-        NSLog("TMPlayer read ahead: %.1f s, GPU per new frame %.2f ms", buffered - position, gpuPerFrameMs())
+        NSLog("TMPlayer read ahead: %.1f s, GPU per new frame %.2f ms; avsync %@ s, dropped %@ (decoder %@), late %@, ao %@",
+              buffered - position, gpuPerFrameMs(), property("avsync") ?? "-", property("frame-drop-count") ?? "-",
+              property("decoder-frame-drop-count") ?? "-", property("vo-delayed-frame-count") ?? "-", property("current-ao") ?? "-")
+    }
+
+    /// With `-perfLog`: each moment the picture and the sound are 40 ms or more apart, as mpv
+    /// sees them, with its frames dropped and drawn late so far.
+    private func logSync() {
+        guard UserDefaults.standard.integer(forKey: "perfLog") > 0,
+              let gap = Double(property("avsync") ?? ""), abs(gap) >= 0.04 else { return }
+        NSLog("TMPlayer sync: %.3f s apart at %.2f s, dropped %@, late %@", gap, position,
+              property("frame-drop-count") ?? "-", property("vo-delayed-frame-count") ?? "-")
     }
 
     /// What drawing one new frame takes on the GPU, the passes' average times added up (mpv's
@@ -571,6 +597,7 @@ final class MpvEngine: NSObject, VideoEngine {
         case ("time-pos", MPV_FORMAT_DOUBLE):
             position = change.data.assumingMemoryBound(to: Double.self).pointee
             progress(force: false)
+            logSync()
         case ("duration", MPV_FORMAT_DOUBLE):
             duration = change.data.assumingMemoryBound(to: Double.self).pointee
             progress(force: true)
