@@ -1,0 +1,49 @@
+{
+  "name": "TMPlayer for Apple",
+  "identifier": "io.github.killua99x.tmplayer.source",
+  "subtitle": "Your Telegram videos on iPhone and iPad.",
+  "description": "TMPlayer for Apple is a free, open source, unofficial Telegram media player that plays the videos in your own Telegram chats on iPhone and iPad, while they are still downloading. Not affiliated with Telegram.",
+  "tintColor": "#2AABEE",
+  "featuredApps": [
+    "io.github.killua99x.tmplayer"
+  ],
+  "apps": [
+    {
+      "name": "TMPlayer for Apple",
+      "bundleIdentifier": "io.github.killua99x.tmplayer",
+      "subtitle": "Your Telegram videos, playing before the download finishes.",
+      "localizedDescription": "TMPlayer for Apple plays the videos in your own Telegram chats and channels on iPhone and iPad. It starts within seconds while the file is still downloading, and seeking moves the download to the new spot.\n\nSign in with your Telegram account, pick a chat, and only its playable videos appear: no messages, no server, no account except yours. Subtitles and audio tracks, episodes recognised from file names, Continue watching, Favourites and downloads, as TMPlayer has them on Android.\n\nUnofficial, not affiliated with Telegram. Free and open source under the GPL 3.0, based on TMPlayer by dracu-lah.",
+      "tintColor": "#2AABEE",
+      "category": "entertainment",
+      "screenshots": [],
+      "versions": [
+        {
+          "version": "1.28.5",
+          "buildVersion": "1",
+          "date": "2026-11-14T07:35:20Z",
+          "localizedDescription": "The first version for iPhone and iPad, built from TMPlayer 1.28.5.\n\n- Sign in with your phone number or a QR code, then browse your chats and channels and see only\n  their videos.\n- Playback starts while the video is still downloading, and seeking moves the download to the new\n  spot.\n- MP4 plays in Apple's own player, which uses the least battery; MKV, AVI, TS and the rest in mpv.\n  Both use the hardware decoder, with embedded subtitles (PGS and VobSub too) and several audio\n  tracks.\n- Episodes recognised from file names, Continue watching, Favourites and Downloads, as in TMPlayer\n  for Android.\n- One app for iPhone and iPad: the layout follows the window, in either orientation and beside\n  another app.\n- 22 languages: Czech is new in this version, and the Russian wording is fixed throughout.\n- Not on iPhone and iPad: casting (Google Cast, DLNA, AirPlay video), Picture in Picture, and\n  downloads while the app is in the background.\n\nNeeds iOS or iPadOS 26.4 or later. Unofficial, not affiliated with Telegram.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5/TMPlayer-for-Apple-1.28.5.ipa",
+          "size": 46320630,
+          "minOSVersion": "26.4"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSPhotoLibraryAddUsageDescription": "TMPlayer saves the videos and frames you choose to Photos."
+        }
+      },
+      "version": "1.28.5",
+      "versionDate": "2026-11-14T07:35:20Z",
+      "versionDescription": "The first version for iPhone and iPad, built from TMPlayer 1.28.5.\n\n- Sign in with your phone number or a QR code, then browse your chats and channels and see only\n  their videos.\n- Playback starts while the video is still downloading, and seeking moves the download to the new\n  spot.\n- MP4 plays in Apple's own player, which uses the least battery; MKV, AVI, TS and the rest in mpv.\n  Both use the hardware decoder, with embedded subtitles (PGS and VobSub too) and several audio\n  tracks.\n- Episodes recognised from file names, Continue watching, Favourites and Downloads, as in TMPlayer\n  for Android.\n- One app for iPhone and iPad: the layout follows the window, in either orientation and beside\n  another app.\n- 22 languages: Czech is new in this version, and the Russian wording is fixed throughout.\n- Not on iPhone and iPad: casting (Google Cast, DLNA, AirPlay video), Picture in Picture, and\n  downloads while the app is in the background.\n\nNeeds iOS or iPadOS 26.4 or later. Unofficial, not affiliated with Telegram.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5/TMPlayer-for-Apple-1.28.5.ipa",
+      "size": 46320630,
+      "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+      "developerName": "Pietro Giuseppe D'Amico"
+    }
+  ],
+  "news": [],
+  "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
+  "website": "https://github.com/Killua99x/TMPlayer-for-apple",
+  "sourceURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/altstore/source.json"
+}
