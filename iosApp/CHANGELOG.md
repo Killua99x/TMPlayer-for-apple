@@ -17,6 +17,16 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 9 (2026-11-15)
+
+- The setup's last step is called "Storage and data", without the reports this app does not send.
+- The chat picker no longer says the chats with the most videos are already ticked: it
+  recommends them, and you tick them.
+- Renaming a video keeps its page under the box, instead of showing the screen behind it.
+- On an iPad, the theme, rotation and privacy lines say "device" instead of "phone".
+- Info and help ends with the version and build installed, such as "Version 1.28.5 (build 9)",
+  and the other places that show the version say the build the same way.
+
 ## 1.28.5 build 8 (2026-11-14)
 
 - Settings, About and a bug report show the app's version and build, where they showed 0.

@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "8",
-          "date": "2026-11-14T19:05:20Z",
-          "localizedDescription": "- Settings, About and a bug report show the app's version and build, where they showed 0.\n- Choosing a poster without a TMDB key of your own says how to add one, instead of saying\n  that TMDB refused a key.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-8/TMPlayer-for-Apple-1.28.5-8.ipa",
-          "size": 46333580,
+          "buildVersion": "9",
+          "date": "2026-11-15T05:21:02Z",
+          "localizedDescription": "- The setup's last step is called \"Storage and data\", without the reports this app does not send.\n- The chat picker no longer says the chats with the most videos are already ticked: it\n  recommends them, and you tick them.\n- Renaming a video keeps its page under the box, instead of showing the screen behind it.\n- On an iPad, the theme, rotation and privacy lines say \"device\" instead of \"phone\".\n- Info and help ends with the version and build installed, such as \"Version 1.28.5 (build 9)\",\n  and the other places that show the version say the build the same way.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-9/TMPlayer-for-Apple-1.28.5-9.ipa",
+          "size": 46337557,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-14T19:05:20Z",
-      "versionDescription": "- Settings, About and a bug report show the app's version and build, where they showed 0.\n- Choosing a poster without a TMDB key of your own says how to add one, instead of saying\n  that TMDB refused a key.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-8/TMPlayer-for-Apple-1.28.5-8.ipa",
-      "size": 46333580,
+      "versionDate": "2026-11-15T05:21:02Z",
+      "versionDescription": "- The setup's last step is called \"Storage and data\", without the reports this app does not send.\n- The chat picker no longer says the chats with the most videos are already ticked: it\n  recommends them, and you tick them.\n- Renaming a video keeps its page under the box, instead of showing the screen behind it.\n- On an iPad, the theme, rotation and privacy lines say \"device\" instead of \"phone\".\n- Info and help ends with the version and build installed, such as \"Version 1.28.5 (build 9)\",\n  and the other places that show the version say the build the same way.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-9/TMPlayer-for-Apple-1.28.5-9.ipa",
+      "size": 46337557,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

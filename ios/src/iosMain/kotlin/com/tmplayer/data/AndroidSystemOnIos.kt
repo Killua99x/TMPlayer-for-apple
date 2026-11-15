@@ -145,8 +145,9 @@ object AfterUpdate {
  * Android's update setup reads the installer and the ABI; an iOS build never updates itself:
  * AltStore or SideStore does, from the source, as the iOS privacy note says. So checks are off
  * (upstream's Home checks when it comes back online), and the version is the bundle's,
- * "1.28.5 (7)", where About, Settings' Info and help row and a bug report show it. Left alone it
- * read "0" (iPad, build 7, 2026-11-14), and any release on the feed would have looked newer.
+ * "1.28.5 (build 9)", where About, Settings' Info and help row, the foot of Info and help and a
+ * bug report show it. Left alone it read "0" (iPad, build 7, 2026-11-14), and any release on the
+ * feed would have looked newer.
  */
 @Suppress("UNUSED_PARAMETER")
 fun Updates.configureForAndroid(context: Context) {
@@ -155,7 +156,7 @@ fun Updates.configureForAndroid(context: Context) {
     val build = (info?.get("CFBundleVersion") as? String)?.takeIf { it.isNotBlank() }
     enabled = false
     configure(
-        installedVersion = listOfNotNull(version, build?.let { "($it)" }).joinToString(" ").ifEmpty { "0" },
+        installedVersion = listOfNotNull(version, build?.let { "(build $it)" }).joinToString(" ").ifEmpty { "0" },
         offers = { false },
     )
 }

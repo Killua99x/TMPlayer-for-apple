@@ -190,7 +190,12 @@ fun SetupScreen(
     BackHandler { back?.invoke() ?: onSkipAll() }
 
     val copy = when {
-        switches -> SetupCopy(s.setupDataTitle, s.setupDataBody)
+        // "and reports" only where the page has the crash reports switch: a build that cannot
+        // report (the iOS app, 2026-11-14) titled a page of two switches after a third it lacked.
+        switches -> SetupCopy(
+            if (SetupStep.CrashReports in page) s.setupDataTitle else s.setupDataTitleNoReports,
+            s.setupDataBody,
+        )
         step == SetupStep.Device -> s.setupCopy(step).copy(title = s.fitHeadline(fit))
         else -> s.setupCopy(step)
     }
