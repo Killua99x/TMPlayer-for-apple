@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "10",
-          "date": "2026-11-15T10:09:22Z",
-          "localizedDescription": "- On a narrow screen, such as an iPhone with Display Zoom, the player's buttons no longer hide\n  behind Episodes. Episodes and the copy button show only their icons when the words do not\n  fit, and if there is still no room, speed is left to More.\n- Info and help no longer ends with a separate version line: the About TMPlayer row just above\n  it already shows the version and build.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-10/TMPlayer-for-Apple-1.28.5-10.ipa",
-          "size": 46331979,
+          "buildVersion": "11",
+          "date": "2026-11-15T11:41:29Z",
+          "localizedDescription": "- With large text, Home's first card, and the pages shown when a list is empty or something\n  failed, now scroll far enough to read their last line and reach their buttons above the bar at\n  the bottom.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-11/TMPlayer-for-Apple-1.28.5-11.ipa",
+          "size": 46337308,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-15T10:09:22Z",
-      "versionDescription": "- On a narrow screen, such as an iPhone with Display Zoom, the player's buttons no longer hide\n  behind Episodes. Episodes and the copy button show only their icons when the words do not\n  fit, and if there is still no room, speed is left to More.\n- Info and help no longer ends with a separate version line: the About TMPlayer row just above\n  it already shows the version and build.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-10/TMPlayer-for-Apple-1.28.5-10.ipa",
-      "size": 46331979,
+      "versionDate": "2026-11-15T11:41:29Z",
+      "versionDescription": "- With large text, Home's first card, and the pages shown when a list is empty or something\n  failed, now scroll far enough to read their last line and reach their buttons above the bar at\n  the bottom.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-11/TMPlayer-for-Apple-1.28.5-11.ipa",
+      "size": 46337308,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

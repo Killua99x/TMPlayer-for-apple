@@ -17,6 +17,12 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 11 (2026-11-15)
+
+- With large text, Home's first card, and the pages shown when a list is empty or something
+  failed, now scroll far enough to read their last line and reach their buttons above the bar at
+  the bottom.
+
 ## 1.28.5 build 10 (2026-11-15)
 
 - On a narrow screen, such as an iPhone with Display Zoom, the player's buttons no longer hide
