@@ -3,6 +3,7 @@ package com.tmplayer.data
 import com.tmplayer.i18n.L
 import com.tmplayer.platform.Credentials
 import com.tmplayer.platform.DeviceInfo
+import com.tmplayer.platform.KeptLog
 import com.tmplayer.platform.Logger
 import com.tmplayer.platform.Paths
 import dev.g000sha256.tdl.TdlClient
@@ -11,6 +12,7 @@ import dev.g000sha256.tdl.dto.AuthorizationState
 import dev.g000sha256.tdl.dto.AuthorizationStateClosed
 import dev.g000sha256.tdl.dto.AuthorizationStateClosing
 import dev.g000sha256.tdl.dto.AuthorizationStateLoggingOut
+import dev.g000sha256.tdl.dto.LogStreamFile
 import dev.g000sha256.tdl.dto.AuthorizationStateReady
 import dev.g000sha256.tdl.dto.AuthorizationStateWaitPhoneNumber
 import dev.g000sha256.tdl.dto.CountryInfo
@@ -130,6 +132,16 @@ object Td {
      */
     private val _sessionEnded = MutableStateFlow(false)
     val sessionEnded: StateFlow<Boolean> = _sessionEnded.asStateFlow()
+
+    /**
+     * Whether TDLib's database was on the disk when this run handed TDLib its folder, null before.
+     * An app that finds itself signed out logs it ([handleSessionEnd]), so the log tells a session
+     * Telegram ended (the database there, its key refused) from one whose files were gone (none),
+     * which the sign in screen cannot (an iPad, 2026-11-15).
+     */
+    @Volatile
+    var databaseAtStart: Boolean? = null
+        private set
 
     /**
      * Set by [logOut] and [restartSignIn], so the logout that follows is the viewer's own and not
@@ -513,7 +525,12 @@ object Td {
             // The first update may already have been emitted before we subscribed, so ask
             // once directly. Both paths go through the same mutex-guarded handler.
             val primer = launch {
-                runCatching { td.setLogVerbosityLevel(1) }
+                // TDLib's own log: logcat on Android, where it writes by itself; a file the app
+                // keeps on iOS ([KeptLog]), which has no log an app may read back.
+                KeptLog.tdlibLogPath?.let { path ->
+                    runCatching { td.setLogStream(LogStreamFile(path, KeptLog.tdlibMaxBytes, false)) }
+                }
+                runCatching { td.setLogVerbosityLevel(KeptLog.tdlibVerbosity) }
                 when (val now = td.getAuthorizationState()) {
                     is TdlResult.Success -> apply(td, now.result)
                     // Not fatal: the update flow still delivers the state. Logged because it is
@@ -856,6 +873,10 @@ object Td {
             )
             return
         }
+        val binlog = File(paths.databaseDir, "td.binlog")
+        val onDisk = runCatching { binlog.isFile }.getOrDefault(false)
+        databaseAtStart = onDisk
+        Logger.i(TAG, if (onDisk) "TDLib's database is on the disk (${binlog.length() / 1024} KB)" else "TDLib's database is not on the disk")
         val result = td.setTdlibParameters(
             useTestDc = false,
             databaseDirectory = paths.databaseDir.absolutePath,

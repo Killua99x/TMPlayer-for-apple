@@ -16,6 +16,9 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.ptr
+import kotlinx.cinterop.toKString
 
 /** Android's foreground download service: its intents go to ServiceHost on iOS. */
 class DownloadService {
@@ -159,6 +162,22 @@ fun Updates.configureForAndroid(context: Context) {
         installedVersion = listOfNotNull(version, build?.let { "(build $it)" }).joinToString(" ").ifEmpty { "0" },
         offers = { false },
     )
+}
+
+/**
+ * The device as a bug report and a saved log name it, "iPad (iPad13,18), iPadOS 27.0.1", where
+ * Android's line has the maker, the model and the Android version: the kind iOS calls it, the exact
+ * model it is (one "iPad" covers every generation) and the system's own name and version.
+ */
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+fun appleDevice(): String {
+    val device = platform.UIKit.UIDevice.currentDevice
+    val machine = kotlinx.cinterop.memScoped {
+        val name = alloc<platform.posix.utsname>()
+        if (platform.posix.uname(name.ptr) == 0) name.machine.toKString() else ""
+    }
+    val kind = if (machine.isEmpty()) device.model else "${device.model} ($machine)"
+    return "$kind, ${device.systemName} ${device.systemVersion}"
 }
 
 /** Installing updates by itself is an Android 12 feature of the sideloaded build. */

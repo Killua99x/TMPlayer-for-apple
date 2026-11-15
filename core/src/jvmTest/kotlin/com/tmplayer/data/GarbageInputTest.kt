@@ -1,5 +1,6 @@
 package com.tmplayer.data
 
+import com.tmplayer.platform.KeptLogLines
 import com.tmplayer.cast.ByteRange
 import com.tmplayer.cast.Mp4Probe
 import com.tmplayer.cast.WebVtt
@@ -143,6 +144,21 @@ class GarbageInputTest {
         "Play,,,", "\\,\\,", "X_DLNA_PS=1/16\\,1/8\\", "PLAY,PAUSE".repeat(50_000),
         "PLAYING", "TRANSITIONING", "STOPPED", "ERROR_OCCURRED", "NO_MEDIA_PRESENT", "\u0000",
     )
+
+    /** iOS's kept log reads TDLib's own log file back (KeptLog): cut short, or written by anything. */
+    @Test
+    fun keptLogLinesNeverThrow() {
+        val stamp: (Long) -> String = { it.toString() }
+        for (text in texts) {
+            survive("KeptLogLines.fromTdlib", text) {
+                KeptLogLines.fromTdlib(text.lines(), stamp)
+                KeptLogLines.fromTdlib(listOf("[ 1][t 1][$text][A.cpp:1] $text", "[ $text][t 1][1.5][A] m", "[ 1][t 1][1.$text][A] m"), stamp)
+                KeptLogLines.fromTdlib(listOf("[ 1][t 1][99999999999999999.999999999][A] $text"), stamp)
+            }
+            survive("KeptLogLines.merge", text) { KeptLogLines.merge(text.lines(), listOf(text), 5) }
+        }
+        assertNoFailures()
+    }
 
     /** The stored downloads location and a record's path (HX57): a path or a picked folder's content:// string. */
     @Test

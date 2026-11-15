@@ -46,6 +46,7 @@ import com.tmplayer.data.NameReport
 import com.tmplayer.data.SettingsStore
 import com.tmplayer.data.WatchedStore
 import com.tmplayer.i18n.L
+import com.tmplayer.platform.KeptLog
 import com.tmplayer.platform.Logger
 import com.tmplayer.ui.auth.QrCode
 import com.tmplayer.ui.components.FloatingWindow
@@ -272,7 +273,9 @@ internal fun rememberSaveNameCheck(say: (String) -> Unit): () -> Unit {
  * which is all it could read anyway, and the player runs in the same one.
  */
 private suspend fun logReport(context: Context): String {
-    val lines = runCatching { ownLogcat() }
+    // iOS keeps its own lines and TDLib's ([KeptLog]): it has no logcat, and an export that asked
+    // for one held nothing but its header (an iPad, 2026-11-15). Android reads its logcat as ever.
+    val lines = KeptLog.lines(LogExport.MAX_LINES) ?: runCatching { ownLogcat() }
         .onFailure { Logger.w(TAG, "logcat could not be read", it) }
         .getOrDefault(emptyList())
     val known = LogExport.knownNames(SettingsStore(context), WatchedStore(context))

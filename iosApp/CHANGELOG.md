@@ -17,6 +17,16 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 12 (2026-11-15)
+
+- Save logs and Send logs now hold what the app did on an iPhone or iPad: each sign in step,
+  Telegram's own messages and the player's, kept across restarts and updates. Until now the file
+  held only its first few lines.
+- Logs and bug reports name the device as iOS does, such as "iPad (iPad13,18), iPadOS 27.0.1",
+  instead of calling it Android, and give the app's build.
+- When the sign in code goes to the Telegram app, the code screen offers "Scan a QR code instead".
+  Telegram sometimes does not deliver the code, and the QR code needs none.
+
 ## 1.28.5 build 11 (2026-11-15)
 
 - With large text, Home's first card, and the pages shown when a list is empty or something

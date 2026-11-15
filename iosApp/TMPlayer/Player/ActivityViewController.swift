@@ -153,8 +153,8 @@ final class ActivityViewController: UIViewController {
         // Asked again once the engine shows its first frame ([engineStartingChanged]).
         if engineStarting { return }
         let scene = view.window?.windowScene
-        NSLog(
-            "TMPlayer orientation: asked %lu wanted %lu device %ld scene %ld geometry %ld bounds %@ window %@",
+        tmLog(
+            "orientation", "asked %lu wanted %lu device %ld scene %ld geometry %ld bounds %@ window %@",
             asked.rawValue, wanted().rawValue, UIDevice.current.orientation.rawValue,
             scene?.interfaceOrientation.rawValue ?? -1, scene?.effectiveGeometry.interfaceOrientation.rawValue ?? -1,
             NSCoder.string(for: view.bounds.size), NSCoder.string(for: view.window?.bounds.size ?? .zero)
@@ -162,7 +162,7 @@ final class ActivityViewController: UIViewController {
         setNeedsUpdateOfSupportedInterfaceOrientations()
         setNeedsUpdateOfPrefersInterfaceOrientationLocked()
         view.window?.windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: wanted())) { error in
-            NSLog("TMPlayer orientation: %@", error.localizedDescription)
+            tmLogWarning("orientation", "%@", error.localizedDescription)
         }
     }
 
@@ -186,7 +186,7 @@ final class ActivityViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: nil) { [weak self] _ in
             guard let self else { return }
-            NSLog("TMPlayer orientation: turned to %@, stands as wanted %d", NSCoder.string(for: self.view.bounds.size), self.stands(in: self.wanted()) ? 1 : 0)
+            tmLog("orientation", "turned to %@, stands as wanted %d", NSCoder.string(for: self.view.bounds.size), self.stands(in: self.wanted()) ? 1 : 0)
             // An iPad turned by hand into a way the activity asks for stays there from now on.
             self.setNeedsUpdateOfPrefersInterfaceOrientationLocked()
             guard self.appeared, !self.stands(in: self.wanted()) else { return }

@@ -10,7 +10,7 @@ enum PlaybackAudio {
             try session.setCategory(.playback, mode: .moviePlayback, policy: .longFormVideo)
             try session.setActive(true)
         } catch {
-            NSLog("TMPlayer audio session: %@", error.localizedDescription)
+            tmLogWarning("audio session", "%@", error.localizedDescription)
         }
     }
 

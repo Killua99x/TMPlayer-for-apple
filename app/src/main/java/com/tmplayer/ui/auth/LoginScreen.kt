@@ -189,6 +189,7 @@ fun LoginScreen(
                     onResend = onResendCode,
                     onChangeNumber = { changingNumber = true },
                     onStartOver = onStartOver,
+                    onUseQr = onRefreshQr,
                 )
             }
         is AuthState.Password ->
@@ -561,12 +562,13 @@ private fun CodePane(
     onResend: () -> Unit,
     onChangeNumber: () -> Unit,
     onStartOver: () -> Unit,
+    onUseQr: () -> Unit,
 ) {
     val s = LocalStrings.current
     BackHandler(onBack = onStartOver)
 
     if (isTouch()) {
-        TouchCodePane(state, error, onSubmit, onResend, onChangeNumber, onStartOver)
+        TouchCodePane(state, error, onSubmit, onResend, onChangeNumber, onStartOver, onUseQr)
         return
     }
 
@@ -630,6 +632,7 @@ private fun CodePane(
                     Text(if (remaining > 0) s.loginResendIn(SignInWords.clock(remaining)) else SignInWords.resendLabel(state.next))
                 }
             }
+            if (SignInWords.qrInstead(state)) TmSecondaryButton(onClick = onUseQr) { Text(s.loginUseQr) }
             TmSecondaryButton(onClick = onChangeNumber) { Text(s.loginWrongNumber) }
         },
     )
@@ -650,6 +653,7 @@ private fun TouchCodePane(
     onResend: () -> Unit,
     onChangeNumber: () -> Unit,
     onStartOver: () -> Unit,
+    onUseQr: () -> Unit,
 ) {
     val s = LocalStrings.current
     val boxed = SignInWords.isDigits(state.delivery)
@@ -745,6 +749,12 @@ private fun TouchCodePane(
                 modifier = Modifier.paneAction(),
             ) {
                 Text(if (remaining > 0) s.loginResendIn(SignInWords.clock(remaining)) else SignInWords.resendLabel(state.next))
+            }
+        }
+
+        if (SignInWords.qrInstead(state)) {
+            TmSecondaryButton(onClick = onUseQr, modifier = Modifier.paneAction()) {
+                Text(s.loginUseQr)
             }
         }
 

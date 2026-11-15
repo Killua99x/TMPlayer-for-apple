@@ -469,7 +469,7 @@ final class AppleEngine: NSObject, VideoEngine {
     }
 
     private func cannotPlay(_ reason: String) {
-        NSLog("TMPlayer apple: cannot play here, %@", reason)
+        tmLog("apple", "cannot play here, %@", reason)
         let reports = self.reports
         unload()
         NotificationCenter.default.post(name: .videoEngineStarted, object: nil)
@@ -481,7 +481,7 @@ final class AppleEngine: NSObject, VideoEngine {
     }
 
     private func failedWhilePlaying(_ reason: String) {
-        NSLog("TMPlayer apple: failed while playing, %@", reason)
+        tmLogWarning("apple", "failed while playing, %@", reason)
         let at = Int64((positionSeconds * 1000).rounded())
         if let onFailedWhilePlaying {
             reports = nil

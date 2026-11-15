@@ -33,6 +33,7 @@
 		D79C005FF4A05BFF589EE751 /* MPVKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5FD826A0340AE96B8EEBD9B8 /* MPVKit */; };
 		DB1E0115CEFB854F7364F53C /* AboutOnDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4329D0EF6DEE477A1ADF5F5E /* AboutOnDeviceTests.swift */; };
 		DFA7A5362F785282903F2363 /* TMPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A50BB65BDD204C99F26BD7 /* TMPlayerApp.swift */; };
+		EB5D86709A331F722D788B0C /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F6338C7668883A2B1B122 /* AppLog.swift */; };
 		F19A70495856544E12E788D3 /* TdStreamProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A150B6CBCCC410053B5D4EFE /* TdStreamProtocol.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 		9B591489AB4818553F61EC9A /* VideoEngines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEngines.swift; sourceTree = "<group>"; };
 		A150B6CBCCC410053B5D4EFE /* TdStreamProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TdStreamProtocol.swift; sourceTree = "<group>"; };
 		A186A5930D776E5ED8891B84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AF3F6338C7668883A2B1B122 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		AF88D6272918A441881BD8B2 /* drawable */ = {isa = PBXFileReference; lastKnownFileType = folder; name = drawable; path = ../app/src/main/res/drawable; sourceTree = SOURCE_ROOT; };
 		B388A448010343625826DBE4 /* EngineConformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineConformanceTests.swift; sourceTree = "<group>"; };
 		C7A50BB65BDD204C99F26BD7 /* TMPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMPlayerApp.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		3EFD9145E2C38A72ECCC236A /* TMPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				AF3F6338C7668883A2B1B122 /* AppLog.swift */,
 				EA094D27D65A486EFAB6FBBB /* Assets.xcassets */,
 				A186A5930D776E5ED8891B84 /* Info.plist */,
 				0D1564292F7FA19CE9EAE86F /* NumberPadKeyboard.swift */,
@@ -420,6 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C6EC994A9B350EB7146E4F7 /* ActivityViewController.swift in Sources */,
+				EB5D86709A331F722D788B0C /* AppLog.swift in Sources */,
 				44EF5F11057E083621FD2B66 /* AppleEngine.swift in Sources */,
 				24F444E8B8B54AEB7E64C15B /* AppleStreamLoader.swift in Sources */,
 				30849E4C3EF7B470C483DFEE /* ChoosingEngine.swift in Sources */,
@@ -569,7 +573,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -634,7 +638,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

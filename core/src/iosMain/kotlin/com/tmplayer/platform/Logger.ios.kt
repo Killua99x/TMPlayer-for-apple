@@ -7,12 +7,17 @@ import platform.Foundation.NSString
 import platform.Foundation.NSUserDefaults
 import platform.Foundation.create
 
-/** To the unified log, where Xcode's console and the Console app read it. */
+/**
+ * To the unified log, where Xcode's console and the Console app read it, and to the app's own
+ * kept log ([KeptLog]), which "Save logs" reads: the unified log keeps a release build's lines as
+ * "<private>" and gives an app none of them back.
+ */
 internal actual fun printError(line: String, error: Throwable?) {
     val text = if (error == null) line else "$line\n${error.stackTraceToString()}"
     // An NSString, not the Kotlin string: Kotlin/Native hands a String in a C variadic call over as
     // a C string, and %@ would read that as an object and crash. The text is never the format.
     NSLog("%@", NSString.create(string = text))
+    KeptLog.keep(text)
     if (HeapMarks.on && marksHeap(line)) HeapMarks.mark(null)
 }
 

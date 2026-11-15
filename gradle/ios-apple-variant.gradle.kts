@@ -102,6 +102,13 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
                 "                ) { Label(s.feedbackEmail) }\n" +
                 "                Text(s.feedbackEmailDetail(Feedback.EMAIL), style = MaterialTheme.typography.bodySmall, color = Tone.muted)\n"
                 becomes "",
+            // A bug report's and a saved log's facts: the device as iOS names it ("iPad
+            // (iPad13,18), iPadOS 27.0.1"), not "Apple iPad, Android 27.0.1" (an iPad's log,
+            // 2026-11-15), and the build, since builds of one version differ on iOS.
+            "    val model = listOf(Build.MANUFACTURER, Build.MODEL).filter { it.isNotBlank() }.distinct().joinToString(\" \")\n" becomes
+                "    val model = com.tmplayer.data.appleDevice()\n",
+            "\"\$model, Android \${Build.VERSION.RELEASE}, " becomes "\"\$model, ",
+            "version = BuildConfig.VERSION_NAME," becomes "version = com.tmplayer.data.Updates.installedVersion,",
         ),
         // The iOS app checks for no update itself: AltStore or SideStore does, from the source.
         "com/tmplayer/ui/settings/SettingsScreen.kt" to listOf(

@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "11",
-          "date": "2026-11-15T11:41:29Z",
-          "localizedDescription": "- With large text, Home's first card, and the pages shown when a list is empty or something\n  failed, now scroll far enough to read their last line and reach their buttons above the bar at\n  the bottom.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-11/TMPlayer-for-Apple-1.28.5-11.ipa",
-          "size": 46337308,
+          "buildVersion": "12",
+          "date": "2026-11-15T23:03:58Z",
+          "localizedDescription": "- Save logs and Send logs now hold what the app did on an iPhone or iPad: each sign in step,\n  Telegram's own messages and the player's, kept across restarts and updates. Until now the file\n  held only its first few lines.\n- Logs and bug reports name the device as iOS does, such as \"iPad (iPad13,18), iPadOS 27.0.1\",\n  instead of calling it Android, and give the app's build.\n- When the sign in code goes to the Telegram app, the code screen offers \"Scan a QR code instead\".\n  Telegram sometimes does not deliver the code, and the QR code needs none.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-12/TMPlayer-for-Apple-1.28.5-12.ipa",
+          "size": 46354415,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-15T11:41:29Z",
-      "versionDescription": "- With large text, Home's first card, and the pages shown when a list is empty or something\n  failed, now scroll far enough to read their last line and reach their buttons above the bar at\n  the bottom.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-11/TMPlayer-for-Apple-1.28.5-11.ipa",
-      "size": 46337308,
+      "versionDate": "2026-11-15T23:03:58Z",
+      "versionDescription": "- Save logs and Send logs now hold what the app did on an iPhone or iPad: each sign in step,\n  Telegram's own messages and the player's, kept across restarts and updates. Until now the file\n  held only its first few lines.\n- Logs and bug reports name the device as iOS does, such as \"iPad (iPad13,18), iPadOS 27.0.1\",\n  instead of calling it Android, and give the app's build.\n- When the sign in code goes to the Telegram app, the code screen offers \"Scan a QR code instead\".\n  Telegram sometimes does not deliver the code, and the QR code needs none.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-12/TMPlayer-for-Apple-1.28.5-12.ipa",
+      "size": 46354415,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

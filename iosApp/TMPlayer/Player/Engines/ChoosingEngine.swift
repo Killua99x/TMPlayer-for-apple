@@ -60,7 +60,7 @@ final class ChoosingEngine: NSObject, VideoEngine {
         apple.onCannotPlay = { [weak self] reason in self?.appleCannotPlay(reason) }
         apple.onFailedWhilePlaying = { [weak self] reason, atMs in
             guard let self, self.active === self.apple else { return }
-            NSLog("TMPlayer engines: Apple's player failed at %lld ms, mpv carries on: %@", atMs, reason)
+            tmLogWarning("engines", "Apple's player failed at %lld ms, mpv carries on: %@", atMs, reason)
             self.openInMpv(at: atMs)
         }
     }
@@ -90,7 +90,7 @@ final class ChoosingEngine: NSObject, VideoEngine {
 
         let kind = source.hasPrefix("/") ? "a path" : String(source.prefix { $0 != ":" })
         if !appleAllowed || options.softwareDecoding || appleLacks() {
-            NSLog("TMPlayer engines: %@ to mpv (Apple's player %@, software %d, boost %d, delays %lld %lld)",
+            tmLog("engines", "%@ to mpv (Apple's player %@, software %d, boost %d, delays %lld %lld)",
                   kind, appleAllowed ? "allowed" : "off", options.softwareDecoding, boost, subtitleDelay, audioDelay)
             openInMpv(at: startAtMs)
             return
@@ -104,7 +104,7 @@ final class ChoosingEngine: NSObject, VideoEngine {
                     return
                 }
                 let start = self.seekWhileChoosing ?? startAtMs
-                NSLog("TMPlayer engines: %@ is %@", kind, type ?? "not MP4 or QuickTime, to mpv")
+                tmLog("engines", "%@ is %@", kind, type ?? "not MP4 or QuickTime, to mpv")
                 if let type {
                     self.openInApple(bytes: bytes, contentType: type, at: start)
                 } else {
@@ -346,7 +346,7 @@ final class ChoosingEngine: NSObject, VideoEngine {
     /// Apple's player refused the file before reporting anything: mpv opens it, at the same place.
     private func appleCannotPlay(_ reason: String) {
         guard active === apple else { return }
-        NSLog("TMPlayer engines: Apple's player passes the file to mpv: %@", reason)
+        tmLog("engines", "Apple's player passes the file to mpv: %@", reason)
         openInMpv(at: seekWhileChoosing ?? startAtMs)
     }
 
@@ -354,7 +354,7 @@ final class ChoosingEngine: NSObject, VideoEngine {
     private func handOverToMpv() {
         guard active === apple else { return }
         let at = Int64((apple.positionSeconds * 1000).rounded())
-        NSLog("TMPlayer engines: to mpv at %lld ms for a feature Apple's player lacks", at)
+        tmLog("engines", "to mpv at %lld ms for a feature Apple's player lacks", at)
         apple.stop()
         openInMpv(at: at)
     }

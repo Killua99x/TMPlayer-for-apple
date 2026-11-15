@@ -556,7 +556,7 @@ final class MpvEngine: NSObject, VideoEngine {
         let every = UserDefaults.standard.integer(forKey: "perfLog")
         guard every > 0, -readAheadLoggedAt.timeIntervalSinceNow >= Double(min(every, 5)) else { return }
         readAheadLoggedAt = Date()
-        NSLog("TMPlayer read ahead: %.1f s, GPU per new frame %.2f ms; avsync %@ s, dropped %@ (decoder %@), late %@, ao %@; sound %@, subtitles %@",
+        tmLog("mpv", "read ahead: %.1f s, GPU per new frame %.2f ms; avsync %@ s, dropped %@ (decoder %@), late %@, ao %@; sound %@, subtitles %@",
               buffered - position, gpuPerFrameMs(), property("avsync") ?? "-", property("frame-drop-count") ?? "-",
               property("decoder-frame-drop-count") ?? "-", property("vo-delayed-frame-count") ?? "-", property("current-ao") ?? "-",
               property("current-tracks/audio/lang") ?? "-", property("current-tracks/sub/lang") ?? "off")
@@ -567,7 +567,7 @@ final class MpvEngine: NSObject, VideoEngine {
     private func logSync() {
         guard UserDefaults.standard.integer(forKey: "perfLog") > 0,
               let gap = Double(property("avsync") ?? ""), abs(gap) >= 0.04 else { return }
-        NSLog("TMPlayer sync: %.3f s apart at %.2f s, dropped %@, late %@", gap, position,
+        tmLog("mpv", "sync: %.3f s apart at %.2f s, dropped %@, late %@", gap, position,
               property("frame-drop-count") ?? "-", property("vo-delayed-frame-count") ?? "-")
     }
 
@@ -744,7 +744,7 @@ final class MpvEngine: NSObject, VideoEngine {
     }
 
     private func log(_ text: String) {
-        NSLog("%@", "TMPlayer mpv: \(text)")
+        tmLog("mpv", "%@", text)
     }
 }
 
