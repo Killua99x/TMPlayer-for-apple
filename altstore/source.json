@@ -2,7 +2,7 @@
   "name": "TMPlayer for Apple",
   "identifier": "io.github.killua99x.tmplayer.source",
   "subtitle": "Your Telegram videos on iPhone and iPad.",
-  "description": "TMPlayer for Apple is a free, open source, unofficial Telegram media player that plays the videos in your own Telegram chats on iPhone and iPad, while they are still downloading. Not affiliated with Telegram.",
+  "description": "A player for the videos already in your own Telegram chats, on iPhone and iPad. Built from TMPlayer for Android, with Apple's player and mpv. Install the IPA from Releases with AltStore or SideStore. Unofficial: not affiliated with Telegram, nor with TMPlayer for Android or its creator.",
   "tintColor": "#2AABEE",
   "featuredApps": [
     "io.github.killua99x.tmplayer"
