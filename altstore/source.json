@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "12",
-          "date": "2026-11-15T23:03:58Z",
-          "localizedDescription": "- Save logs and Send logs now hold what the app did on an iPhone or iPad: each sign in step,\n  Telegram's own messages and the player's, kept across restarts and updates. Until now the file\n  held only its first few lines.\n- Logs and bug reports name the device as iOS does, such as \"iPad (iPad13,18), iPadOS 27.0.1\",\n  instead of calling it Android, and give the app's build.\n- When the sign in code goes to the Telegram app, the code screen offers \"Scan a QR code instead\".\n  Telegram sometimes does not deliver the code, and the QR code needs none.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-12/TMPlayer-for-Apple-1.28.5-12.ipa",
-          "size": 46354415,
+          "buildVersion": "13",
+          "date": "2026-11-15T23:42:02Z",
+          "localizedDescription": "- Coming back to TMPlayer after reading the sign in code in Telegram goes back to the code step.\n  If iOS had closed the app meanwhile, it showed \"This account requires a step TMPlayer cannot\n  do\", and trying again asked Telegram for a new code each time, until Telegram stopped sending\n  them.\n- \"Scan a QR code instead\" on the code step shows the QR code at once, instead of starting the\n  sign in over, which could keep a spinner up for half a minute.",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-13/TMPlayer-for-Apple-1.28.5-13.ipa",
+          "size": 46360436,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-15T23:03:58Z",
-      "versionDescription": "- Save logs and Send logs now hold what the app did on an iPhone or iPad: each sign in step,\n  Telegram's own messages and the player's, kept across restarts and updates. Until now the file\n  held only its first few lines.\n- Logs and bug reports name the device as iOS does, such as \"iPad (iPad13,18), iPadOS 27.0.1\",\n  instead of calling it Android, and give the app's build.\n- When the sign in code goes to the Telegram app, the code screen offers \"Scan a QR code instead\".\n  Telegram sometimes does not deliver the code, and the QR code needs none.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-12/TMPlayer-for-Apple-1.28.5-12.ipa",
-      "size": 46354415,
+      "versionDate": "2026-11-15T23:42:02Z",
+      "versionDescription": "- Coming back to TMPlayer after reading the sign in code in Telegram goes back to the code step.\n  If iOS had closed the app meanwhile, it showed \"This account requires a step TMPlayer cannot\n  do\", and trying again asked Telegram for a new code each time, until Telegram stopped sending\n  them.\n- \"Scan a QR code instead\" on the code step shows the QR code at once, instead of starting the\n  sign in over, which could keep a spinner up for half a minute.",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-13/TMPlayer-for-Apple-1.28.5-13.ipa",
+      "size": 46360436,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

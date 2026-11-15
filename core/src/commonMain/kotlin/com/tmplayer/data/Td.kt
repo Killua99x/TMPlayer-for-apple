@@ -12,6 +12,7 @@ import dev.g000sha256.tdl.dto.AuthorizationState
 import dev.g000sha256.tdl.dto.AuthorizationStateClosed
 import dev.g000sha256.tdl.dto.AuthorizationStateClosing
 import dev.g000sha256.tdl.dto.AuthorizationStateLoggingOut
+import dev.g000sha256.tdl.dto.AuthorizationStateWaitCode
 import dev.g000sha256.tdl.dto.LogStreamFile
 import dev.g000sha256.tdl.dto.AuthorizationStateReady
 import dev.g000sha256.tdl.dto.AuthorizationStateWaitPhoneNumber
@@ -573,8 +574,24 @@ object Td {
         if (state == lastHandled) return@withLock
         lastHandled = state
 
+        // A code still awaited when the app starts is the phone route's (AuthFlow.reduce): it is
+        // kept, so a wrong number or a cancel goes back to the number, not to the choice.
+        if (state is AuthorizationStateWaitCode && method == SignInMethod.Undecided) {
+            method = SignInMethod.Phone
+            Logger.i(TAG, "a code was still awaited when the app started: back on the code step")
+        }
         val step = AuthReducer.reduce(state, method)
         Logger.i(TAG, "auth: ${state::class.simpleName} -> ${step.state::class.simpleName}")
+        // Where Telegram says it sent a code, and to which number, masked to its country code and
+        // last digits: a code that never comes is either Telegram's or a wrong number, and the log
+        // could tell neither (an iPad, 2026-11-16).
+        (step.state as? AuthState.Code)?.let { code ->
+            Logger.i(
+                TAG,
+                "code: ${code.delivery}, ${code.length} digits, next ${code.next ?: "none"}, " +
+                    "wait ${code.timeout} s, to ${PhoneMask.mask(code.phoneNumber)}",
+            )
+        }
         val ending = state is AuthorizationStateLoggingOut || state is AuthorizationStateClosing || state is AuthorizationStateClosed
         if (state is AuthorizationStateLoggingOut && !_endingSession.value) scope.launch { watchLogOut(td) }
         _endingSession.value = ending
@@ -1065,11 +1082,26 @@ object Td {
      * an attempt rather than an account, since nobody is signed in yet.
      */
     /**
-     * A new QR code on request ("Get a new code"). TDLib takes requestQrCodeAuthentication only
-     * from its first question, not while a code is up, so the sign in starts over with the QR
-     * method kept, which asks for a fresh code at once.
+     * A new QR code on request ("Get a new code"), or the QR route from the code step ("Scan a QR
+     * code instead"). TDLib takes requestQrCodeAuthentication at its first question and, with no
+     * request pending, while it waits for a sign in code, but not while a QR code is up: there the
+     * sign in starts over with the QR method kept, which asks for a fresh code at once. From the
+     * code step the request goes straight in, since starting over is a logout, and with Telegram
+     * slow to answer that held a spinner for half a minute (an iPad, 2026-11-16).
      */
-    suspend fun refreshQrCode() = restartSignIn(SignInMethod.Qr)
+    suspend fun refreshQrCode() {
+        val td = current
+        if (td != null && _auth.value is AuthState.Code) {
+            method = SignInMethod.Qr
+            methodAfterRestart = SignInMethod.Qr
+            _auth.value = AuthState.Connecting
+            when (val result = td.requestQrCodeAuthentication(longArrayOf())) {
+                is TdlResult.Success -> return
+                is TdlResult.Failure -> Logger.w(TAG, "a QR code from the code step was refused (${result.message}); starting over")
+            }
+        }
+        restartSignIn(SignInMethod.Qr)
+    }
 
     suspend fun restartSignIn(next: SignInMethod = SignInMethod.Undecided) {
         method = next

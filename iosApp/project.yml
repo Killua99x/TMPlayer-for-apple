@@ -14,7 +14,7 @@ settings:
     # Upstream's version, the TMPlayer this app is built from; an iOS-only fix keeps it and raises
     # the build. The release sets both from its tag (docs/IOS_RELEASING.md).
     MARKETING_VERSION: "1.28.5"
-    CURRENT_PROJECT_VERSION: "12"
+    CURRENT_PROJECT_VERSION: "13"
 packages:
   # libmpv and FFmpeg for iOS, in their LGPL build: never the MPVKit-GPL product
   # (docs/IOS_PORT_PLAN.md, "Player: libmpv through MPVKit").

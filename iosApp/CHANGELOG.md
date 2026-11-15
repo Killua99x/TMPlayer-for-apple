@@ -17,6 +17,15 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 13 (2026-11-16)
+
+- Coming back to TMPlayer after reading the sign in code in Telegram goes back to the code step.
+  If iOS had closed the app meanwhile, it showed "This account requires a step TMPlayer cannot
+  do", and trying again asked Telegram for a new code each time, until Telegram stopped sending
+  them.
+- "Scan a QR code instead" on the code step shows the QR code at once, instead of starting the
+  sign in over, which could keep a spinner up for half a minute.
+
 ## 1.28.5 build 12 (2026-11-15)
 
 - Save logs and Send logs now hold what the app did on an iPhone or iPad: each sign in step,
