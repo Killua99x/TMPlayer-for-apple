@@ -17,6 +17,14 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 10 (2026-11-15)
+
+- On a narrow screen, such as an iPhone with Display Zoom, the player's buttons no longer hide
+  behind Episodes. Episodes and the copy button show only their icons when the words do not
+  fit, and if there is still no room, speed is left to More.
+- Info and help no longer ends with a separate version line: the About TMPlayer row just above
+  it already shows the version and build.
+
 ## 1.28.5 build 9 (2026-11-15)
 
 - The setup's last step is called "Storage and data", without the reports this app does not send.

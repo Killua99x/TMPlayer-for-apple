@@ -108,25 +108,6 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
             "s.settingsPrivacyNote," becomes "s.settingsPrivacyNoteIos,",
             // The changelog is iosApp/CHANGELOG.md on GitHub (WhatsNew.CHANGELOG above).
             "s.settingsChangelogDetail," becomes "s.settingsChangelogDetailIos,",
-            // The version and build at the foot of Info and help, "Version 1.28.5 (build 9)", read
-            // from the bundle at each build (the maintainer, 2026-11-15): builds of one version
-            // differ on iOS. After the line above, so it finds the iOS privacy note.
-            "                        Text(\n" +
-                "                            s.settingsPrivacyNoteIos,\n" +
-                "                            style = MaterialTheme.typography.bodyMedium,\n" +
-                "                            color = Tone.muted,\n" +
-                "                        )\n" becomes
-                "                        Text(\n" +
-                "                            s.settingsPrivacyNoteIos,\n" +
-                "                            style = MaterialTheme.typography.bodyMedium,\n" +
-                "                            color = Tone.muted,\n" +
-                "                        )\n" +
-                "                        Text(\n" +
-                "                            \"\${s.settingsVersion} \${Updates.installedVersion}\",\n" +
-                "                            style = MaterialTheme.typography.bodyMedium,\n" +
-                "                            color = Tone.muted,\n" +
-                "                            modifier = Modifier.padding(top = 16.dp),\n" +
-                "                        )\n",
         ),
     ),
 )

@@ -3,6 +3,7 @@ package com.tmplayer.player
 import android.graphics.Color
 import android.os.SystemClock
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.annotation.OptIn
@@ -118,6 +119,19 @@ class PlayerControls(
     private val buttons: View = root.findViewById(R.id.controls_buttons)
     private val episodesButton: TextView = root.findViewById(R.id.control_episodes)
     private val copyButton: TextView = root.findViewById(R.id.control_copy)
+    private val speedButton: View = root.findViewById(R.id.control_speed)
+
+    /** The scroll view the round buttons sit in, and the row that holds it beside the pills. */
+    private val buttonsScroll: View = buttons.parent as View
+    private val row: ViewGroup = buttonsScroll.parent as ViewGroup
+
+    // A pill's padding and gap with its words, as the layout gives them (the copy's are the same).
+    private val pillLeft = episodesButton.paddingLeft
+    private val pillRight = episodesButton.paddingRight
+    private val pillGap = episodesButton.compoundDrawablePadding
+
+    /** The copy button's words ("1080p"), kept while the row shows its glyph alone. */
+    private var copyLabel = ""
 
     /** The phone's times line shows what is left rather than the total. */
     var showRemaining = false
@@ -610,9 +624,20 @@ class PlayerControls(
     val shapeOnRow: Boolean get() = shapeButton.visibility == View.VISIBLE || !shapeOffered
     val lockOnRow: Boolean get() = lockButton.visibility == View.VISIBLE
 
+    /** False while the round buttons run past the room their scroll view has: the row did not fit. */
+    val rowFits: Boolean
+        get() = buttons.width <= buttonsScroll.width - buttonsScroll.paddingLeft - buttonsScroll.paddingRight
+
     /**
-     * Shows or hides the phone's two extra buttons by the room the row has. Before the first
-     * layout the width is the screen's, less the row's padding.
+     * Fits the phone's row to the room it has, giving up a little more at each step until what is
+     * left fits: everything (only when the row is at least [WIDE_ROW_DP] across), then without
+     * picture shape and the lock, then Episodes as its glyph alone, then the copy as well, then
+     * without speed. Words go before buttons. What leaves the row is still in More (the lock,
+     * picture shape and speed always are), and a glyph alone keeps its name for TalkBack and a
+     * long press. Upright with a series and a second copy, the pills had cut the round buttons
+     * off mid icon (Android at 411 dp, an iPhone with Display Zoom at 320 points, 2026-11-15);
+     * the scroll under the buttons is only the last resort now. Before the first layout the
+     * width is the screen's, less the row's padding.
      */
     private fun fitRow() {
         if (isTv) {
@@ -621,12 +646,66 @@ class PlayerControls(
         }
         val metrics = cluster.resources.displayMetrics
         val width = cluster.width.takeIf { it > 0 } ?: metrics.widthPixels
-        val across = (width - cluster.paddingLeft - cluster.paddingRight) / metrics.density
-        val wanted = if (across >= WIDE_ROW_DP) View.VISIBLE else View.GONE
-        val shapeWanted = if (shapeOffered) wanted else View.GONE
-        if (shapeButton.visibility == shapeWanted && lockButton.visibility == wanted) return
-        shapeButton.visibility = shapeWanted
-        lockButton.visibility = wanted
+        val room = width - cluster.paddingLeft - cluster.paddingRight
+        val first = if (room / metrics.density >= WIDE_ROW_DP) 0 else 1
+        for (step in first..LAST_ROW_STEP) {
+            giveUp(step)
+            if (step == LAST_ROW_STEP || rowNeeds() <= room) break
+        }
+        // Measuring left each part at its natural size: the next pass sizes them for the row.
+        row.requestLayout()
+    }
+
+    /** The row as [fitRow]'s [step] has it, 0 being everything. */
+    private fun giveUp(step: Int) {
+        val extras = if (step == 0) View.VISIBLE else View.GONE
+        shapeButton.visibility = if (shapeOffered) extras else View.GONE
+        lockButton.visibility = extras
+        speedButton.visibility = if (step < 4) View.VISIBLE else View.GONE
+        pillWords(episodesButton, L.episodesTitle, words = step < 2, spoken = null, alone = L.episodesTitle)
+        pillWords(
+            copyButton,
+            copyLabel,
+            words = step < 3,
+            spoken = L.playerCopies,
+            alone = L.commonWithDetail(L.playerCopies, copyLabel),
+        )
+    }
+
+    /**
+     * A pill with its words, or its glyph alone in a round button's size. [spoken] is the name it
+     * has with its words (none: TalkBack reads the words), [alone] the name it has without.
+     */
+    private fun pillWords(pill: TextView, label: String, words: Boolean, spoken: String?, alone: String) {
+        val text = if (words) label else ""
+        if (pill.text.toString() != text) pill.text = text
+        val side = minOf(pillLeft, pillRight)
+        pill.setPadding(if (words) pillLeft else side, pill.paddingTop, if (words) pillRight else side, pill.paddingBottom)
+        pill.compoundDrawablePadding = if (words) pillGap else 0
+        val name = if (words) spoken else alone
+        if (name != null) {
+            describe(pill, name)
+        } else if (pill.contentDescription != null) {
+            pill.contentDescription = null
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) pill.tooltipText = null
+        }
+    }
+
+    /** The width the row's shown parts take at their natural size, with their margins. */
+    private fun rowNeeds(): Int {
+        val free = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        var need = row.paddingLeft + row.paddingRight
+        for (i in 0 until row.childCount) {
+            val child = row.getChildAt(i)
+            if (child.visibility == View.GONE) continue
+            // The scroll view takes whatever it is given: its buttons say what they need.
+            val sized = if (child === buttonsScroll) buttons else child
+            sized.measure(free, free)
+            val margins = child.layoutParams as? ViewGroup.MarginLayoutParams
+            need += sized.measuredWidth + (margins?.leftMargin ?: 0) + (margins?.rightMargin ?: 0)
+            if (child === buttonsScroll) need += child.paddingLeft + child.paddingRight
+        }
+        return need
     }
 
     /** Offers or takes away the picture shape button, for a video that is sound alone. */
@@ -817,6 +896,7 @@ class PlayerControls(
         val hadFocus = episodesButton.hasFocus()
         episodesButton.visibility = wanted
         if (hadFocus) focusRow()
+        fitRow()
     }
 
     /**
@@ -825,11 +905,15 @@ class PlayerControls(
      */
     fun setCopy(label: String?) {
         val wanted = if (label.isNullOrBlank()) View.GONE else View.VISIBLE
-        copyButton.text = label.orEmpty()
-        if (copyButton.visibility == wanted) return
-        val hadFocus = copyButton.hasFocus()
-        copyButton.visibility = wanted
-        if (hadFocus) focusRow()
+        copyLabel = label.orEmpty()
+        copyButton.text = copyLabel
+        if (copyButton.visibility != wanted) {
+            val hadFocus = copyButton.hasFocus()
+            copyButton.visibility = wanted
+            if (hadFocus) focusRow()
+        }
+        // Another label is another width.
+        fitRow()
     }
 
     /** Puts the remote back on the copy button, for when the list it opened closes. */
@@ -1168,6 +1252,9 @@ class PlayerControls(
          * (360 to 430 wide) stays under it, one held sideways (640 and up) is well over.
          */
         const val WIDE_ROW_DP = 540f
+
+        /** [fitRow]'s last step: both pills as their glyphs alone and speed gone. */
+        const val LAST_ROW_STEP = 4
 
         /** Where the picture shape glyph starts its pop from, and how long the pop takes. */
         const val SHAPE_POP = 0.82f
