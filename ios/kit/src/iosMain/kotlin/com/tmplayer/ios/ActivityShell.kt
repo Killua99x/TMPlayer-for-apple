@@ -47,7 +47,8 @@ internal object ActivityShell {
     private const val TAG = "ActivityShell"
 
     private var app: App? = null
-    private var activity: MainActivity? = null
+    /** MainActivity, or in a promo build launched with `-promo` the promo fixture ([promoForShots]). */
+    private var activity: androidx.activity.ComponentActivity? = null
     private var main: ActivityRun? = null
 
     /** PlayerActivity while it is up, over the app's screens. */
@@ -75,7 +76,7 @@ internal object ActivityShell {
             com.tmplayer.platform.HeapMarks.mark("app created")
             app = it
         }
-        val activity = activity ?: MainActivity().also {
+        val activity = activity ?: (promoForShots() ?: MainActivity()).also {
             ActivityHost.register(PlayerActivity::class.simpleName.orEmpty()) { intent ->
                 openActivity(app, launcher, intent)
             }
@@ -93,11 +94,13 @@ internal object ActivityShell {
             com.tmplayer.platform.HeapMarks.mark("activity started")
             com.tmplayer.platform.HeapMarks.markLater(listOf(200, 500, 1000, 2000, 4000, 8000))
             if (UIApplication.sharedApplication.applicationState == UIApplicationState.UIApplicationStateActive) run.resume()
-            playRecentForCheck(it)
-            playContinueForCheck(it)
-            playFileForCheck(it)
-            openScreenForCheck(it)
-            noticeForCheck(it)
+            if (it is MainActivity) {
+                playRecentForCheck(it)
+                playContinueForCheck(it)
+                playFileForCheck(it)
+                openScreenForCheck(it)
+                noticeForCheck(it)
+            }
             NetCheck.startIfAsked()
             PerfProbe.startIfAsked()
             OwnKeyWatch.start()
@@ -225,6 +228,31 @@ internal object ActivityShell {
      * [CHECK_FILE]) and opens it in PlayerActivity, which plays a download from its file as on
      * Android. The record stays in Downloads until removed there.
      */
+    /**
+     * The README's screenshots (iosApp/screenshots): in a promo build, launched with
+     * `-promo "screen=media;theme=light"`, the app starts upstream's promo fixture instead of
+     * MainActivity. It opens the app's real screens over an invented account, as upstream's Android
+     * promo build does, with these as its launch extras (`true` and `false` as yes or no, whole
+     * numbers as numbers, the rest as words). Null without the argument, or in any other build.
+     */
+    private fun promoForShots(): androidx.activity.ComponentActivity? {
+        val asked = platform.Foundation.NSUserDefaults.standardUserDefaults.stringForKey("promo") ?: return null
+        val fixture = PromoEntry.activity() ?: return null
+        val intent = android.content.Intent()
+        asked.split(';').map { it.trim() }.filter { '=' in it }.forEach { pair ->
+            val name = pair.substringBefore('=').trim()
+            val value = pair.substringAfter('=').trim()
+            when {
+                value == "true" || value == "false" -> intent.putExtra(name, value == "true")
+                value.toIntOrNull() != null -> intent.putExtra(name, value.toIntOrNull() ?: 0)
+                else -> intent.putExtra(name, value)
+            }
+        }
+        fixture.intent = intent
+        Logger.i(TAG, "promo fixture: $asked")
+        return fixture
+    }
+
     /**
      * A developer's check on a real device: launched with `-openScreen <name>`, the app opens that
      * screen once signed in, as a notification asking for it would (MainActivity's EXTRA_OPEN):

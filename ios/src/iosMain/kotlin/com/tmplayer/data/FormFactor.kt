@@ -44,4 +44,7 @@ object DeviceQuirks {
     fun isFireTv(context: Context): Boolean = false
     fun remote(context: Context): RemoteQuirks = RemoteQuirks.of(FireOs.Kind.None, false, android.os.Build.VERSION.SDK_INT)
     fun trickplayMemory(context: Context): Boolean = true
+
+    /** The promo fixture's Fire OS answer: an iPhone or iPad is never a Fire device. */
+    fun override(kind: FireOs.Kind) = Unit
 }

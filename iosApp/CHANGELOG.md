@@ -17,6 +17,14 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 15 (2026-11-16)
+
+- Home, the chats, Settings and About now run to the bottom edge of the screen, as iOS's own lists
+  do: they no longer stop short above the home indicator and leave an empty strip there. The last
+  row still ends above it.
+- A downloaded video plays from the device at once, without waiting for Telegram's sign in, which
+  could leave it on "This video hasn't started".
+
 ## 1.28.5 build 14 (2026-11-16)
 
 - TMPlayer for Apple has its own name and icon: a white chat bubble with a play button on blue,

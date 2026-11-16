@@ -22,6 +22,10 @@
   <a href="https://www.paypal.com/paypalme/pietrogdamico28"><img alt="Donate with PayPal" src="https://img.shields.io/badge/PayPal-donate-00457C?logo=paypal&logoColor=white" /></a>
 </p>
 
+<p align="center">
+  <picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/ipad/home-light.webp"><img src="iosApp/screenshots/ipad/home-dark.webp" width="100%" alt="TMPlayer for Apple on iPad: Home, with a show to resume and Continue watching" /></picture>
+</p>
+
 ---
 
 TMPlayer for Apple plays the videos in your own Telegram chats and channels on an iPhone or an
@@ -35,6 +39,43 @@ It is [TMPlayer](https://github.com/dracu-lah/TMPlayer), the same app with the s
 the same behaviour, brought to iPhone and iPad. TMPlayer's own code runs on iOS as its authors
 wrote it; the one part of iOS's own is the video engine. Changes made to TMPlayer reach this
 version by merging them in.
+
+## Screenshots
+
+### iPhone
+
+<table>
+  <tr>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/home-light.webp"><img src="iosApp/screenshots/iphone/home-dark.webp" width="100%" alt="Home" /></picture></td>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/chats-light.webp"><img src="iosApp/screenshots/iphone/chats-dark.webp" width="100%" alt="Chats" /></picture></td>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/show-light.webp"><img src="iosApp/screenshots/iphone/show-dark.webp" width="100%" alt="A show" /></picture></td>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/film-light.webp"><img src="iosApp/screenshots/iphone/film-dark.webp" width="100%" alt="A video" /></picture></td>
+  </tr>
+  <tr>
+    <td width="25%" align="center"><b>Home</b><br /><sub>Resume a show, Continue watching, new videos</sub></td>
+    <td width="25%" align="center"><b>Your chats</b><br /><sub>The chats and channels that have videos</sub></td>
+    <td width="25%" align="center"><b>A show</b><br /><sub>Seasons, episodes and where you stopped</sub></td>
+    <td width="25%" align="center"><b>A video</b><br /><sub>Its details, versions and what you can do with it</sub></td>
+  </tr>
+</table>
+
+### iPad
+
+<table>
+  <tr>
+    <td width="50%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/ipad/grid-light.webp"><img src="iosApp/screenshots/ipad/grid-dark.webp" width="100%" alt="A chat's videos" /></picture></td>
+    <td width="50%" align="center" valign="top"><img src="iosApp/screenshots/ipad/player.webp" width="100%" alt="The player on iPad" /></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center"><b>A chat's videos</b><br /><sub>Films as posters, a show as one tile</sub></td>
+    <td width="50%" align="center"><b>The player</b><br /><sub>mpv, with subtitles, audio tracks, speed and gestures</sub></td>
+  </tr>
+</table>
+
+Screenshots of the real app on an iPhone 13 and an iPad (10th generation), in GitHub's light or
+dark theme as you read this. The library is a demo: every chat, title and person in it is
+invented, and its pictures are photos from Unsplash, credited in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Status
 

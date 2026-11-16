@@ -45,6 +45,10 @@ class DownloadRelocationService
 
 object TvChannelsPublisher {
     fun supported(context: Context): Boolean = false
+
+    /** The promo fixture's channel pictures: iOS has no TV home screen to put them on. */
+    internal var fixtureArt: ((TvChannels.Art) -> java.io.File?)? = null
+
     suspend fun publish(context: Context, programs: List<TvChannels.Program>, names: (Channel) -> String) = Unit
     suspend fun clearPrograms(context: Context) = Unit
 

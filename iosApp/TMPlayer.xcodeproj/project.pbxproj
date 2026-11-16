@@ -296,6 +296,7 @@
 				8689F2CAF309389C9B4AA7F4 /* Sources */,
 				8DE83A9F582A1B7B9D9C1FD6 /* Resources */,
 				A235C68AA18598C0592E4CC5 /* Frameworks */,
+				5F98302E8761A1005876F050 /* The promo fixture's pictures */,
 			);
 			buildRules = (
 			);
@@ -414,6 +415,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\ncd \"$SRCROOT/..\"\n# Gradle needs JDK 21 (docs/BUILDING.md); Xcode's environment rarely points at one.\nif [ -z \"$JAVA_HOME\" ] || ! \"$JAVA_HOME/bin/java\" -version 2>&1 | grep -q 'version \"21'; then\n  JAVA_HOME=\"$(/usr/libexec/java_home -F -v 21 2>/dev/null || true)\"\n  if [ -z \"$JAVA_HOME\" ] && [ -d /opt/homebrew/opt/openjdk@21 ]; then\n    JAVA_HOME=\"/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home\"\n  fi\nfi\nexport JAVA_HOME\n./gradlew :ios:kit:embedAndSignAppleFrameworkForXcode\n";
+		};
+		5F98302E8761A1005876F050 /* The promo fixture's pictures */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "The promo fixture's pictures";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nif [ \"${ORG_GRADLE_PROJECT_tmPromo:-}\" = \"true\" ]; then\n  out=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/drawable-nodpi\"\n  mkdir -p \"$out\"\n  for picture in \"$SRCROOT/../app/src/promo/res/drawable-nodpi/\"promo_*.webp; do\n    case \"$(basename \"$picture\")\" in promo_bbb_*) continue ;; esac\n    cp \"$picture\" \"$out/\"\n  done\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -573,7 +593,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -638,7 +658,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

@@ -29,6 +29,17 @@ data class Replacement(val old: String, val new: String)
 
 infix fun String.becomes(new: String) = Replacement(this, new)
 
+/**
+ * `footInsets`: on iOS a list runs under the home indicator to the foot of the window, as iOS's
+ * own lists do, and keeps the indicator's strip after its last row (the maintainer saw the strip
+ * left empty under every list, 2026-11-16). Material's Scaffold pads its content by the system
+ * bars, the bottom one included, so the screens that already keep that strip in their lists
+ * take only the status bar from it, as upstream's own grid and Downloads page do
+ * (`contentWindowInsets = WindowInsets.statusBars`).
+ */
+val importStatusBars = "import androidx.compose.foundation.layout.WindowInsets\n" becomes
+    "import androidx.compose.foundation.layout.WindowInsets\nimport androidx.compose.foundation.layout.statusBars\n"
+
 val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
     // :core, paths under src/commonMain/kotlin.
     "core" to mapOf(
@@ -43,6 +54,17 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
         "com/tmplayer/data/WhatsNew.kt" to listOf(
             "const val CHANGELOG = \"https://tmplayer.org/changelog/\"" becomes
                 "const val CHANGELOG = \"$appleSource/blob/main/iosApp/CHANGELOG.md\"",
+        ),
+        // Not the app's identity: the running client before anyone signs in, for the player's
+        // downloaded videos (iosPlayer below).
+        "com/tmplayer/data/Td.kt" to listOf(
+            "    /** Waits for an authorized client and returns the generation it belongs to. */\n" becomes
+                "    /**\n" +
+                "     * The running client, signed in or not: the player's downloaded videos play from their\n" +
+                "     * files without waiting for the sign in (gradle/ios-apple-variant.gradle.kts, iosPlayer).\n" +
+                "     */\n" +
+                "    suspend fun awaitAnySession(): TdSession = _session.first { it != null }!!\n\n" +
+                "    /** Waits for an authorized client and returns the generation it belongs to. */\n",
         ),
     ),
     // :ui, paths under src/shared/kotlin.
@@ -125,6 +147,11 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
         ),
         "com/tmplayer/ui/settings/AboutScreen.kt" to listOf(
             "s.supportSponsorGithub" becomes "\"PayPal\"",
+            // The list runs to the foot of the window (see `footInsets` above).
+            importStatusBars,
+            "                topBar = { com.tmplayer.ui.components.FloatingPageTitle({ M3Text(s.aboutTitle) }, scroll) },\n            ) { padding ->\n" becomes
+                "                topBar = { com.tmplayer.ui.components.FloatingPageTitle({ M3Text(s.aboutTitle) }, scroll) },\n" +
+                "                contentWindowInsets = WindowInsets.statusBars,\n            ) { padding ->\n",
         ),
         "com/tmplayer/ui/settings/Support.kt" to listOf(
             "s.supportSponsorGithub" becomes "\"PayPal\"",
@@ -152,6 +179,84 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
             "s.settingsPrivacyNote," becomes "s.settingsPrivacyNoteIos,",
             // The changelog is iosApp/CHANGELOG.md on GitHub (WhatsNew.CHANGELOG above).
             "s.settingsChangelogDetail," becomes "s.settingsChangelogDetailIos,",
+            // The list and each page run to the foot of the window (see `footInsets` above).
+            importStatusBars,
+            "                topBar = { FloatingPageTitle({ M3Text(titleOf(page!!)) }, pageScroll) },\n            ) { padding ->\n" becomes
+                "                topBar = { FloatingPageTitle({ M3Text(titleOf(page!!)) }, pageScroll) },\n" +
+                "                contentWindowInsets = WindowInsets.statusBars,\n            ) { padding ->\n",
+            "                topBar = { FloatingPageTitle({ M3Text(s.settingsTitle) }, listScroll) },\n            ) { padding ->\n" becomes
+                "                topBar = { FloatingPageTitle({ M3Text(s.settingsTitle) }, listScroll) },\n" +
+                "                contentWindowInsets = WindowInsets.statusBars,\n            ) { padding ->\n",
+        ),
+        // Home and the chat lists: the frame stops leaving the home indicator's strip under them,
+        // and the lists keep that strip after their last row instead (homeIndicatorInset in :ios).
+        "com/tmplayer/ui/browse/PhoneBrowse.kt" to listOf(
+            "                bottom = padding.calculateBottomPadding(),\n            )\n        } else {\n            padding\n        }\n" becomes
+                "                bottom = 0.dp,\n            )\n        } else {\n" +
+                "            PaddingValues(\n" +
+                "                start = padding.calculateStartPadding(direction),\n" +
+                "                top = padding.calculateTopPadding(),\n" +
+                "                end = padding.calculateEndPadding(direction),\n" +
+                "            )\n        }\n",
+        ),
+        "com/tmplayer/ui/browse/BrowseScreen.kt" to listOf(
+            "TouchInsets.clearing(touchShellClearance(withActions = true, rail = LocalTouchRail.current))" becomes
+                "TouchInsets.clearing(touchShellClearance(withActions = true, rail = LocalTouchRail.current) + com.tmplayer.ios.homeIndicatorInset())",
+        ),
+    ),
+    // :ios, Android's player as copied for iOS (androidPlayerForIos). A video kept in Downloads
+    // plays from its file without waiting for Telegram's sign in, which upstream's player waits
+    // for before any video: one opened before TDLib is ready, or with no one signed in, sat on
+    // "This video hasn't started" (the maintainer, 2026-11-16). One cut into pieces still asks
+    // Telegram for them, and a stream still waits for the sign in.
+    "iosPlayer" to mapOf(
+        "com/tmplayer/player/PlayerActivity.kt" to listOf(
+            "        itemScope.launch {\n            val session = Td.awaitAuthorizedSession()\n            markStart(\"session ready\", STAGE_SESSION)\n" becomes
+                "        itemScope.launch {\n" +
+                "            val kept = !mayBeJoined() && LocalDownloads.videoFor(settings, chatId, messageId) != null\n" +
+                "            val session = if (kept) Td.awaitAnySession() else Td.awaitAuthorizedSession()\n" +
+                "            markStart(\"session ready\", STAGE_SESSION)\n",
+            // A session counts as current only once someone is signed in: a kept video goes on.
+            "            if (!session.isCurrent()) return@launch\n            markStart(\"file and settings decided\", STAGE_DECIDED)\n" becomes
+                "            if (!kept && !session.isCurrent()) return@launch\n            markStart(\"file and settings decided\", STAGE_DECIDED)\n",
+        ),
+    ),
+    // :ios's promo build only (-PtmPromo=true, the README's screenshots), upstream's promo fixture
+    // under app/src/promo: its pictures come from the app bundle, where the Xcode project copies
+    // them, instead of Android's resources.
+    "iosPromo" to mapOf(
+        // Its demo files are named as release groups name theirs: TMPlayer for Apple never shows
+        // a name that reads like piracy (the maintainer, 2026-11-16), so each is made plain
+        // (PromoNames in :ios) where it is made, and found again by its plain name. Kotlin/Native
+        // has no String.format, so the episode numbers are padded by hand.
+        "com/tmplayer/promo/PromoCatalog.kt" to listOf(
+            "\"Harbour.Lines.S01E%02d.1080p.WEB-DL.DDP5.1.x264.mkv\".format(it.number)" becomes
+                "\"Harbour.Lines.S01E\${it.number.toString().padStart(2, '0')}.1080p.WEB-DL.DDP5.1.x264.mkv\"",
+            "\"[Kumo] Skybound Academy - %02d (1080p).mkv\".format(it.number)" becomes
+                "\"[Kumo] Skybound Academy - \${it.number.toString().padStart(2, '0')} (1080p).mkv\"",
+            "\"Wild.Coasts.S01E%02d.2160p.WEB-DL.HEVC.mkv\".format(it.number)" becomes
+                "\"Wild.Coasts.S01E\${it.number.toString().padStart(2, '0')}.2160p.WEB-DL.HEVC.mkv\"",
+            "\"\$COURSE - Lesson %02d - %s.mp4\".format(l.number, l.name)" becomes
+                "\"\$COURSE - Lesson \${l.number.toString().padStart(2, '0')} - \${l.name}.mp4\"",
+            "title = copy.fileName," becomes "title = com.tmplayer.ios.PromoNames.clean(copy.fileName),",
+            "fileName = copy.fileName," becomes "fileName = com.tmplayer.ios.PromoNames.clean(copy.fileName),",
+            "val name = show.fileName(e)" becomes "val name = com.tmplayer.ios.PromoNames.clean(show.fileName(e))",
+            "private fun named(part: String) = all.first { part in it.fileName }" becomes
+                "private fun named(part: String) = all.first { com.tmplayer.ios.PromoNames.clean(part) in it.fileName }",
+            "\"air_date\":\"\${s.year}-02-%02d\"" becomes
+                "\"air_date\":\"\${s.year}-02-\${(e.number * 7 - 6).toString().padStart(2, '0')}\"",
+            "\"\"\".format(e.number * 7 - 6)" becomes "\"\"\"",
+            // String.toByteArray is the JVM's; Kotlin's own is encodeToByteArray (UTF-8 as well).
+            "body.toByteArray())" becomes "body.encodeToByteArray())",
+        ),
+        "com/tmplayer/PromoCaptureActivity.kt" to listOf(
+            "fileName = \"Quiet.Orbit.2024.1080p.WEB-DL.mkv\"" becomes "fileName = \"The Quiet Orbit (2024) 1080p.mkv\"",
+            "fileName = \"Quiet.Orbit.2024.720p.mkv\"" becomes "fileName = \"The Quiet Orbit (2024) 720p.mkv\"",
+        ),
+        "com/tmplayer/PromoMeta.kt" to listOf(
+            "                    val id = res.getIdentifier(name, \"drawable\", context.packageName)\n" +
+                "                    if (id == 0) null else res.openRawResource(id).use { it.readBytes() }\n" becomes
+                "                    com.tmplayer.ios.PromoPictures.bytes(name)\n",
         ),
     ),
 )

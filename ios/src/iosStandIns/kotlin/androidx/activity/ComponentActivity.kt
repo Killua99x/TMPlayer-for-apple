@@ -96,6 +96,9 @@ open class ComponentActivity : android.app.Activity(), LifecycleOwner, ViewModel
     }
 
     open fun onNewIntent(intent: Intent) = Unit
+
+    /** Android's window focus: an iOS app's one window is not told, so this is never called. */
+    open fun onWindowFocusChanged(hasFocus: Boolean) = Unit
     open fun onUserInteraction() = Unit
     /**
      * A key, as Android's Activity hands it on: [onUserInteraction], then [onKeyDown] or

@@ -292,6 +292,8 @@ class WindowManager {
             const val LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT = 0
             const val LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES = 1
             const val LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS = 3
+            /** iOS shows the keyboard only for a field a person taps, so the hidden state is its own. */
+            const val SOFT_INPUT_STATE_ALWAYS_HIDDEN = 3
         }
     }
 }
@@ -352,6 +354,9 @@ class Window internal constructor() {
         private set
 
     fun addFlags(flags: Int) = setFlags(flags, flags)
+
+    /** The keyboard's state when the window opens: iOS has no such setting (WindowManager.LayoutParams). */
+    fun setSoftInputMode(mode: Int) = Unit
 
     fun clearFlags(flags: Int) = setFlags(0, flags)
 

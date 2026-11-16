@@ -22,6 +22,10 @@
   <a href="https://www.paypal.com/paypalme/pietrogdamico28"><img alt="Dona con PayPal" src="https://img.shields.io/badge/PayPal-donate-00457C?logo=paypal&logoColor=white" /></a>
 </p>
 
+<p align="center">
+  <picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/ipad/home-light.webp"><img src="iosApp/screenshots/ipad/home-dark.webp" width="100%" alt="TMPlayer for Apple su iPad: la Home, con una serie da riprendere e Continua a guardare" /></picture>
+</p>
+
 ---
 
 TMPlayer for Apple riproduce i video delle tue chat e dei tuoi canali di Telegram su iPhone o
@@ -35,6 +39,42 @@ Niente messaggi, nessun server, nessun account oltre al tuo.
 stesso comportamento, portata su iPhone e iPad. Il codice di TMPlayer gira su iOS così come l'hanno
 scritto i suoi autori; l'unica parte propria di iOS è il motore video. Le modifiche fatte a TMPlayer
 arrivano in questa versione unendole.
+
+## Screenshot
+
+### iPhone
+
+<table>
+  <tr>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/home-light.webp"><img src="iosApp/screenshots/iphone/home-dark.webp" width="100%" alt="Home" /></picture></td>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/chats-light.webp"><img src="iosApp/screenshots/iphone/chats-dark.webp" width="100%" alt="Chat" /></picture></td>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/show-light.webp"><img src="iosApp/screenshots/iphone/show-dark.webp" width="100%" alt="Una serie" /></picture></td>
+    <td width="25%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/iphone/film-light.webp"><img src="iosApp/screenshots/iphone/film-dark.webp" width="100%" alt="Un video" /></picture></td>
+  </tr>
+  <tr>
+    <td width="25%" align="center"><b>Home</b><br /><sub>Una serie da riprendere, Continua a guardare, i video nuovi</sub></td>
+    <td width="25%" align="center"><b>Le tue chat</b><br /><sub>Le chat e i canali che hanno video</sub></td>
+    <td width="25%" align="center"><b>Una serie</b><br /><sub>Stagioni, episodi e dove ti eri fermato</sub></td>
+    <td width="25%" align="center"><b>Un video</b><br /><sub>I dettagli, le versioni e cosa puoi farci</sub></td>
+  </tr>
+</table>
+
+### iPad
+
+<table>
+  <tr>
+    <td width="50%" align="center" valign="top"><picture><source media="(prefers-color-scheme: light)" srcset="iosApp/screenshots/ipad/grid-light.webp"><img src="iosApp/screenshots/ipad/grid-dark.webp" width="100%" alt="I video di una chat" /></picture></td>
+    <td width="50%" align="center" valign="top"><img src="iosApp/screenshots/ipad/player.webp" width="100%" alt="Il player su iPad" /></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center"><b>I video di una chat</b><br /><sub>I film come locandine, una serie in un solo riquadro</sub></td>
+    <td width="50%" align="center"><b>Il player</b><br /><sub>mpv, con sottotitoli, tracce audio, velocità e gesti</sub></td>
+  </tr>
+</table>
+
+Screenshot dell'app vera su un iPhone 13 e un iPad (10ª generazione), nel tema chiaro o scuro di
+GitHub con cui stai leggendo. La libreria è una demo: ogni chat, titolo e persona è inventato, e
+le immagini sono foto di Unsplash, con i crediti in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Stato
 
