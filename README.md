@@ -53,7 +53,7 @@ version by merging them in.
   </tr>
   <tr>
     <td width="25%" align="center"><b>Home</b><br /><sub>Resume a show, Continue watching, new videos</sub></td>
-    <td width="25%" align="center"><b>Your chats</b><br /><sub>The chats and channels that have videos</sub></td>
+    <td width="25%" align="center"><b>Your chats</b><br /><sub>The chats and channels you chose to watch</sub></td>
     <td width="25%" align="center"><b>A show</b><br /><sub>Seasons, episodes and where you stopped</sub></td>
     <td width="25%" align="center"><b>A video</b><br /><sub>Its details, versions and what you can do with it</sub></td>
   </tr>

@@ -53,7 +53,7 @@ arrivano in questa versione unendole.
   </tr>
   <tr>
     <td width="25%" align="center"><b>Home</b><br /><sub>Una serie da riprendere, Continua a guardare, i video nuovi</sub></td>
-    <td width="25%" align="center"><b>Le tue chat</b><br /><sub>Le chat e i canali che hanno video</sub></td>
+    <td width="25%" align="center"><b>Le tue chat</b><br /><sub>Le chat e i canali che hai scelto di guardare</sub></td>
     <td width="25%" align="center"><b>Una serie</b><br /><sub>Stagioni, episodi e dove ti eri fermato</sub></td>
     <td width="25%" align="center"><b>Un video</b><br /><sub>I dettagli, le versioni e cosa puoi farci</sub></td>
   </tr>
@@ -67,8 +67,8 @@ arrivano in questa versione unendole.
     <td width="50%" align="center" valign="top"><img src="iosApp/screenshots/ipad/player.webp" width="100%" alt="Il player su iPad" /></td>
   </tr>
   <tr>
-    <td width="50%" align="center"><b>I video di una chat</b><br /><sub>I film come locandine, una serie in un solo riquadro</sub></td>
-    <td width="50%" align="center"><b>Il player</b><br /><sub>mpv, con sottotitoli, tracce audio, velocità e gesti</sub></td>
+    <td width="50%" align="center"><b>I video di una chat</b><br /><sub>I video come locandine, una serie in un solo riquadro</sub></td>
+    <td width="50%" align="center"><b>Il player</b><br /><sub>Il lettore di Apple o mpv, con sottotitoli, tracce audio, velocità e gesti</sub></td>
   </tr>
 </table>
 
