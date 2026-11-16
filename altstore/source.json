@@ -19,11 +19,11 @@
       "versions": [
         {
           "version": "1.28.5",
-          "buildVersion": "14",
-          "date": "2026-11-16T09:01:52Z",
-          "localizedDescription": "- TMPlayer for Apple has its own name and icon: a white chat bubble with a play button on blue,\n  and \"TMPlayer for Apple\" under it and at the top of sign in, Home and About. The name TMPlayer\n  and its logo belong to the original app for Android, TV and computers, which this one is based\n  on. On the Home Screen, iOS may shorten the name to fit under the icon.",
-          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-14/TMPlayer-for-Apple-1.28.5-14.ipa",
-          "size": 47167402,
+          "buildVersion": "15",
+          "date": "2026-11-16T12:08:58Z",
+          "localizedDescription": "- Home, the chats, Settings and About now run to the bottom edge of the screen, as iOS's own lists\n  do: they no longer stop short above the home indicator and leave an empty strip there. The last\n  row still ends above it.\n- A downloaded video plays from the device at once, without waiting for Telegram's sign in, which\n  could leave it on \"This video hasn't started\".",
+          "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-15/TMPlayer-for-Apple-1.28.5-15.ipa",
+          "size": 47170075,
           "minOSVersion": "26.4"
         }
       ],
@@ -34,10 +34,10 @@
         }
       },
       "version": "1.28.5",
-      "versionDate": "2026-11-16T09:01:52Z",
-      "versionDescription": "- TMPlayer for Apple has its own name and icon: a white chat bubble with a play button on blue,\n  and \"TMPlayer for Apple\" under it and at the top of sign in, Home and About. The name TMPlayer\n  and its logo belong to the original app for Android, TV and computers, which this one is based\n  on. On the Home Screen, iOS may shorten the name to fit under the icon.",
-      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-14/TMPlayer-for-Apple-1.28.5-14.ipa",
-      "size": 47167402,
+      "versionDate": "2026-11-16T12:08:58Z",
+      "versionDescription": "- Home, the chats, Settings and About now run to the bottom edge of the screen, as iOS's own lists\n  do: they no longer stop short above the home indicator and leave an empty strip there. The last\n  row still ends above it.\n- A downloaded video plays from the device at once, without waiting for Telegram's sign in, which\n  could leave it on \"This video hasn't started\".",
+      "downloadURL": "https://github.com/Killua99x/TMPlayer-for-apple/releases/download/apple-v1.28.5-15/TMPlayer-for-Apple-1.28.5-15.ipa",
+      "size": 47170075,
       "iconURL": "https://raw.githubusercontent.com/Killua99x/TMPlayer-for-apple/main/iosApp/TMPlayer/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "developerName": "Pietro Giuseppe D'Amico"
     }

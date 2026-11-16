@@ -67,8 +67,8 @@ version by merging them in.
     <td width="50%" align="center" valign="top"><img src="iosApp/screenshots/ipad/player.webp" width="100%" alt="The player on iPad" /></td>
   </tr>
   <tr>
-    <td width="50%" align="center"><b>A chat's videos</b><br /><sub>Films as posters, a show as one tile</sub></td>
-    <td width="50%" align="center"><b>The player</b><br /><sub>mpv, with subtitles, audio tracks, speed and gestures</sub></td>
+    <td width="50%" align="center"><b>A chat's videos</b><br /><sub>Videos as posters, a series as one tile</sub></td>
+    <td width="50%" align="center"><b>The player</b><br /><sub>Apple's player or mpv, with subtitles, audio tracks, speed and gestures</sub></td>
   </tr>
 </table>
 
