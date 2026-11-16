@@ -54,6 +54,19 @@ stop_daemons
 echo "== The app, archived"
 archive="$work/TMPlayer.xcarchive"
 rm -rf "$archive"
+# macOS empties files in TMPDIR that nobody opened for some days but keeps their folders, and
+# Xcode then takes an MPVKit framework folder with nothing in it as downloaded (2026-11-16: "no
+# Info.plist found" for every one). Such a cache is dropped, so Xcode fetches the packages again.
+packages="$work/derived/SourcePackages"
+if [ -d "$packages/artifacts" ]; then
+  for framework in "$packages"/artifacts/*/*/*.xcframework; do
+    if [ -d "$framework" ] && [ ! -f "$framework/Info.plist" ]; then
+      echo "The package cache lost $(basename "$framework")'s files: fetching the packages again"
+      rm -rf "$packages"
+      break
+    fi
+  done
+fi
 GRADLE_OPTS="$lean" xcodebuild archive -project iosApp/TMPlayer.xcodeproj -scheme TMPlayer \
   -configuration Release -destination 'generic/platform=iOS' -archivePath "$archive" \
   -derivedDataPath "$work/derived" \
