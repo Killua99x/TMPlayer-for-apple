@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="art/player.svg" width="88" alt="TMPlayer logo" />
+  <img src="iosApp/art/logo.svg" width="88" alt="TMPlayer for Apple icon" />
 </p>
 
 <h1 align="center">TMPlayer for Apple</h1>
@@ -225,6 +225,10 @@ TMPlayer for Apple does not provide media, recommend channels, or bypass access 
 Telegram's own restrictions stay on. Use it only with content you own or are authorized to access,
 as TMPlayer's [Lawful use](https://tmplayer.org/legal/) page says.
 
+TMPlayer for Apple is an independent port: it is not published or supported by TMPlayer's
+developer, so its problems and questions belong in this repository's
+[issues](https://github.com/Killua99x/TMPlayer-for-apple/issues), not TMPlayer's.
+
 What the app keeps on your device and which services it talks to is in [Privacy](PRIVACY.md).
 
 ## License
@@ -234,9 +238,18 @@ What the app keeps on your device and which services it talks to is in [Privacy]
 iPadOS port, by Pietro Giuseppe D'Amico ([pietrogdamico.com](https://pietrogdamico.com)), is published
 under the same licence.
 
+TMPlayer for Apple is a modified version of [TMPlayer](https://github.com/dracu-lah/TMPlayer) by
+dracu-lah. What was changed, from November 2026: the iOS and iPadOS port (the `ios` module,
+`iosApp/`, the iOS sources and stand-ins in `core` and `ui`, and the build steps that compile
+TMPlayer's screens for iOS), and its own name, icon and links. The rest is TMPlayer's code as its
+developer wrote it, following its releases. The name TMPlayer and its player mark belong to the
+original project: this version is published as TMPlayer for Apple, with its own icon, as
+TMPlayer's developer agreed (16 November 2026).
+
 The iOS build adds TDLib (Boost Software License 1.0) through tdl-coroutines (Apache License 2.0),
 libmpv and FFmpeg in their LGPL builds through MPVKit, MoltenVK (Apache License 2.0), and Kotlin
 and Compose Multiplatform (Apache License 2.0). The libraries TMPlayer itself bundles are in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Player mark via [SVG Repo](https://www.svgrepo.com), recoloured.
+The TMPlayer for Apple icon, a chat bubble with a play triangle ([iosApp/art](iosApp/art)), was
+made for this project and is published under the same licence.

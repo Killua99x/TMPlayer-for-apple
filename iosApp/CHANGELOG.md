@@ -17,6 +17,13 @@ The version and build are the ones the tag names: apple-v1.28.5 releases 1.28.5,
 apple-v1.28.5-2 its build 2. docs/IOS_RELEASING.md has the rest.
 -->
 
+## 1.28.5 build 14 (2026-11-16)
+
+- TMPlayer for Apple has its own name and icon: a white chat bubble with a play button on blue,
+  and "TMPlayer for Apple" under it and at the top of sign in, Home and About. The name TMPlayer
+  and its logo belong to the original app for Android, TV and computers, which this one is based
+  on. On the Home Screen, iOS may shorten the name to fit under the icon.
+
 ## 1.28.5 build 13 (2026-11-16)
 
 - Coming back to TMPlayer after reading the sign in code in Telegram goes back to the code step.

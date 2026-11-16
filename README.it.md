@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="art/player.svg" width="88" alt="Logo di TMPlayer" />
+  <img src="iosApp/art/logo.svg" width="88" alt="Icona di TMPlayer for Apple" />
 </p>
 
 <h1 align="center">TMPlayer for Apple</h1>
@@ -234,6 +234,11 @@ accesso. Le restrizioni di Telegram restano attive. Usala solo con contenuti di 
 cui sei autorizzato ad accedere, come dice la pagina [Lawful use](https://tmplayer.org/legal/) di
 TMPlayer (in inglese).
 
+TMPlayer for Apple è un porting indipendente: non è pubblicato né supportato dallo sviluppatore di
+TMPlayer, quindi problemi e domande vanno nelle
+[issue](https://github.com/Killua99x/TMPlayer-for-apple/issues) di questo repository, non in quelle
+di TMPlayer.
+
 Cosa l'app conserva sul dispositivo e con quali servizi parla è nella pagina [Privacy](PRIVACY.it.md).
 
 ## Licenza
@@ -243,9 +248,19 @@ Cosa l'app conserva sul dispositivo e con quali servizi parla è nella pagina [P
 per iOS e iPadOS, di Pietro Giuseppe D'Amico ([pietrogdamico.com](https://pietrogdamico.com)), è
 pubblicato con la stessa licenza.
 
+TMPlayer for Apple è una versione modificata di [TMPlayer](https://github.com/dracu-lah/TMPlayer)
+di dracu-lah. Cosa è cambiato, da novembre 2026: il porting per iOS e iPadOS (il modulo `ios`,
+`iosApp/`, i sorgenti e i sostituti per iOS in `core` e `ui`, e i passaggi di build che
+compilano le schermate di TMPlayer per iOS), più nome, icona e link propri. Il resto è il codice
+di TMPlayer come l'ha scritto il suo sviluppatore, al passo con le sue versioni. Il nome TMPlayer
+e il suo simbolo appartengono al progetto originale: questa versione è pubblicata come TMPlayer
+for Apple, con un'icona propria, come concordato con lo sviluppatore di TMPlayer (16 novembre
+2026).
+
 La build per iOS aggiunge TDLib (Boost Software License 1.0) tramite tdl-coroutines (Apache
 License 2.0), libmpv e FFmpeg nelle loro build LGPL tramite MPVKit, MoltenVK (Apache License 2.0),
 e Kotlin e Compose Multiplatform (Apache License 2.0). Le librerie incluse in TMPlayer stesso sono
 elencate in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Simbolo del lettore da [SVG Repo](https://www.svgrepo.com), ricolorato.
+L'icona di TMPlayer for Apple, un fumetto con il triangolo del play ([iosApp/art](iosApp/art)), è
+stata fatta per questo progetto ed è pubblicata con la stessa licenza.

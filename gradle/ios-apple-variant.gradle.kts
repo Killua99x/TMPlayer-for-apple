@@ -16,6 +16,14 @@ val appleSource = "https://github.com/Killua99x/TMPlayer-for-apple"
 val appleCoffee = "https://buymeacoffee.com/pietrogdamico"
 val applePaypal = "https://www.paypal.com/paypalme/pietrogdamico28"
 
+/**
+ * TMPlayer for Apple's mark in a 1024 square, as in iosApp/art/icon.svg: a chat bubble with a play
+ * triangle cut out of it (filled even-odd), white on the deep blue to azure tile.
+ */
+val appleMark = "M352 224H672A160 160 0 0 1 832 384V544A160 160 0 0 1 672 704H430L262 818Q236 836 246 806" +
+    "L290 691A160 160 0 0 1 192 544V384A160 160 0 0 1 352 224Z " +
+    "M447 382Q447 352 473 367L616 449Q642 464 616 479L473 561Q447 576 447 546Z"
+
 /** One replacement: every [old] in the file becomes [new], and [old] must be there at least once. */
 data class Replacement(val old: String, val new: String)
 
@@ -39,6 +47,30 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
     ),
     // :ui, paths under src/shared/kotlin.
     "ui" to mapOf(
+        // TMPlayer for Apple's own name and mark (iosApp/art/icon.svg), where every screen draws
+        // the app's lockup: TMPlayer's name and player mark stay with TMPlayer (its developer,
+        // 2026-11-16: "different image and name ... tmplayer for apple is fine").
+        "com/tmplayer/ui/components/AppLogo.kt" to listOf(
+            "const val BRAND_NAME = \"TMPlayer\"" becomes "const val BRAND_NAME = \"TMPlayer for Apple\"",
+            "            layer(0xFF1E1E28, TILE)\n" +
+                "            layer(0xFF0E0E12, SCREEN)\n" +
+                "            layer(0xFF3A3A46, TRACK)\n" +
+                "            layer(0xFF2AABEE, PROGRESS)\n" +
+                "            layer(0xFFEDEDF2, PLAYHEAD_AND_TRIANGLE)\n" becomes
+                "            addPath(\n" +
+                "                PathParser().parsePathString(\"M0 0H1024V1024H0Z\").toNodes(),\n" +
+                "                fill = androidx.compose.ui.graphics.Brush.linearGradient(\n" +
+                "                    listOf(Color(0xFF2E5BFF), Color(0xFF1FC8FF)),\n" +
+                "                    start = androidx.compose.ui.geometry.Offset(0f, 0f),\n" +
+                "                    end = androidx.compose.ui.geometry.Offset(1024f, 1024f),\n" +
+                "                ),\n" +
+                "            )\n" +
+                "            addPath(\n" +
+                "                PathParser().parsePathString(\"$appleMark\").toNodes(),\n" +
+                "                pathFillType = androidx.compose.ui.graphics.PathFillType.EvenOdd,\n" +
+                "                fill = SolidColor(Color.White),\n" +
+                "            )\n",
+        ),
         "com/tmplayer/ui/about/About.kt" to listOf(
             "const val SOURCE = \"https://github.com/dracu-lah/TMPlayer\"" becomes
                 "const val SOURCE = \"$appleSource\"\n" +
@@ -86,6 +118,11 @@ val appleVariant: Map<String, Map<String, List<Replacement>>> = mapOf(
     ),
     // :ios, Android's screens, paths under app/src/main/java.
     "ios" to mapOf(
+        // Android's launcher drawing (ic_logo) is TMPlayer's mark: the iOS app draws its own.
+        "com/tmplayer/ui/components/AppMark.kt" to listOf(
+            "painter = painterResource(R.drawable.ic_logo)," becomes
+                "painter = androidx.compose.ui.graphics.vector.rememberVectorPainter(AppLogo.Mark),",
+        ),
         "com/tmplayer/ui/settings/AboutScreen.kt" to listOf(
             "s.supportSponsorGithub" becomes "\"PayPal\"",
         ),

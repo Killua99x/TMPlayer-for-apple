@@ -3,7 +3,7 @@
   "identifier": "io.github.killua99x.tmplayer.source",
   "subtitle": "Your Telegram videos on iPhone and iPad.",
   "description": "A player for the videos already in your own Telegram chats, on iPhone and iPad. Built from TMPlayer for Android, with Apple's player and mpv. Install the IPA from Releases with AltStore or SideStore. Unofficial: not affiliated with Telegram, nor with TMPlayer for Android or its creator.",
-  "tintColor": "#2AABEE",
+  "tintColor": "#2E5BFF",
   "featuredApps": [
     "io.github.killua99x.tmplayer"
   ],
@@ -13,7 +13,7 @@
       "bundleIdentifier": "io.github.killua99x.tmplayer",
       "subtitle": "Your Telegram videos, playing before the download finishes.",
       "localizedDescription": "TMPlayer for Apple plays the videos in your own Telegram chats and channels on iPhone and iPad. It starts within seconds while the file is still downloading, and seeking moves the download to the new spot.\n\nSign in with your Telegram account, pick a chat, and only its playable videos appear: no messages, no server, no account except yours. Subtitles and audio tracks, episodes recognised from file names, Continue watching, Favourites and downloads, as TMPlayer has them on Android.\n\nUnofficial, not affiliated with Telegram. Free and open source under the GPL 3.0, based on TMPlayer by dracu-lah.",
-      "tintColor": "#2AABEE",
+      "tintColor": "#2E5BFF",
       "category": "entertainment",
       "screenshots": [],
       "versions": [

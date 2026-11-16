@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- The same mark for iOS's tinted icons: iOS colours the white and keeps the black dark. -->
+  <rect width="1024" height="1024" fill="#000000"/>
+  <path fill="#FFFFFF" fill-rule="evenodd" d="M352 224H672A160 160 0 0 1 832 384V544A160 160 0 0 1 672 704H430L262 818Q236 836 246 806L290 691A160 160 0 0 1 192 544V384A160 160 0 0 1 352 224Z M447 382Q447 352 473 367L616 449Q642 464 616 479L473 561Q447 576 447 546Z"/>
+</svg>

@@ -244,6 +244,8 @@ IPA from the releases of <https://github.com/Killua99x/TMPlayer-for-apple>. Each
 links the source of that version and of MPVKit. The components below were read from the resolved
 packages and the built app (2026-11-13).
 
+Its icon and the mark drawn in the app are its own (`iosApp/art`), not TMPlayer's player mark.
+
 - MPVKit 1.0.0 (<https://github.com/mpvkit/MPVKit/tree/1.0.0>), its `MPVKit` product only, never
   `MPVKit-GPL`. It bundles libmpv and FFmpeg built without their GPL parts, and the libraries they
   need:
